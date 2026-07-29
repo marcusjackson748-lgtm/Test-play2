@@ -1,185 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+import type { Metadata } from "next";
+import "./globals.css";
 
-:root {
-  --brandBg: #050505;
-  --brandSurface: #0f0f0f;
-  --brandSurfaceAccent: #151515;
-  --brandBorder: rgba(255, 255, 255, 0.08);
-  --brandGreen: #8EF08A;
-  --brandTextSec: #a1a1aa;
-}
+export const metadata: Metadata = {
+  title: "QuickStart.Ai | Emergent Edition",
+  description: "Cinematic AI architecture and lightning-fast deployment for next-gen agents.",
+};
 
-body {
-  background-color: var(--brandBg);
-  color: #ffffff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  margin: 0;
-  padding: 0;
-}
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className="dark">
+      <body className="bg-brandBg text-white antialiased font-sans min-h-screen relative overflow-x-hidden selection:bg-brandGreen selection:text-black">
+        
+        {/* Cinematic Background Glows & Vignette */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-b from-[#8EF08A]/10 via-white/[0.02] to-transparent blur-[120px] pointer-events-none -z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(142,240,138,0.08),rgba(0,0,0,0))] pointer-events-none -z-10" />
 
-.bg-brandBg { background-color: var(--brandBg); }
-.bg-brandSurface { background-color: var(--brandSurface); }
-.bg-brandSurfaceAccent { background-color: var(--brandSurfaceAccent); }
-.border-brandBorder { border-color: var(--brandBorder); }
-.bg-brandGreen { background-color: var(--brandGreen); }
-.text-brandGreen { color: var(--brandGreen); }
-.text-brandTextSec { color: var(--brandTextSec); }
-.selection\:bg-brandGreen ::selection { background-color: var(--brandGreen); color: #000000; }
-.rounded-pill { border-radius: 9999px; }
-.rounded-premium { border-radius: 24px; }
+        {/* Emergent Shell Container */}
+        <div className="flex flex-col min-h-screen border-x border-brandBorder max-w-7xl mx-auto shadow-2xl bg-brandBg">
+          
+          {/* Top Brand Nav / Telemetry Bar */}
+          <header className="h-14 border-b border-brandBorder px-6 flex items-center justify-between backdrop-blur-md bg-brandBg/80 sticky top-0 z-50">
+            <div className="flex items-center space-x-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-brandGreen shadow-[0_0_12px_rgba(142,240,138,0.8)] animate-pulse" />
+              <span className="font-mono text-xs tracking-widest text-brandGreen font-semibold uppercase">
+                <span className="wordmark-quickstart">QuickStart</span><span className="wordmark-ai">.Ai</span> <span className="text-white/40">// EMERGE</span>
+              </span>
+            </div>
+            <div className="flex items-center space-x-4 text-xs font-mono text-brandTextSec">
+              <span className="hidden sm:inline">SYS_STATUS: <strong className="text-brandGreen">ONLINE</strong></span>
+              <span className="border-l border-brandBorder pl-4">LATENCY: <strong className="text-white/90">14ms</strong></span>
+            </div>
+          </header>
 
-.glass-card {
-  background: rgba(16, 16, 16, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--brandBorder);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
+          {/* Main Dynamic Viewport */}
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
 
-.glass-card:hover {
-  border-color: rgba(142, 240, 138, 0.3);
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px -15px rgba(142, 240, 138, 0.12);
-}
+          {/* Cinematic Footer */}
+          <footer className="border-t border-brandBorder py-6 px-6 text-center text-xs font-mono text-brandTextSec flex flex-col sm:flex-row items-center justify-between gap-4 bg-brandBg">
+            <p>© {new Date().getFullYear()} QuickStart.Ai Inc. All rights reserved.</p>
+            <div className="flex space-x-6 text-white/60">
+              <a href="#" className="hover:text-brandGreen transition-colors">Documentation</a>
+              <a href="#" className="hover:text-brandGreen transition-colors">Telemetry</a>
+              <a href="#" className="hover:text-brandGreen transition-colors">Security</a>
+            </div>
+          </footer>
 
-.pro-glow-border {
-  position: relative;
-}
-
-.pro-glow-border::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 24px;
-  background: linear-gradient(90deg, transparent, rgba(142, 240, 138, 0.4), transparent);
-  z-index: -1;
-  background-size: 200% 100%;
-  animation: border-glow 4s linear infinite;
-}
-
-@keyframes border-glow {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-.marquee-inner {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll 35s linear infinite;
-}
-
-.marquee-inner:hover {
-  animation-play-state: paused;
-}
-
-@keyframes marquee-scroll {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
-.reveal-element {
-  opacity: 0;
-  transform: translateY(24px) scale(0.98);
-  filter: blur(4px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal-element.active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
-}
-
-.btn-spinner {
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-top: 2px solid #ffffff;
-  border-radius: 50%;
-  width: 14px; height: 14px;
-  animation: spin-loop 0.8s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin-loop {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.workflow-glow-dot {
-  position: absolute;
-  inset: 0;
-  background: var(--brandGreen);
-  height: 1px;
-  width: 60px;
-  border-radius: 9999px;
-  box-shadow: 0 0 8px var(--brandGreen);
-  animation: edge-glow-scroll 5s linear infinite;
-}
-
-@keyframes edge-glow-scroll {
-  0% { left: 0%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { left: 100%; opacity: 0; }
-}
-
-/* iOS zoom fix: font-size ≥ 16px prevents iOS Safari from auto-zooming
-   when the user taps an input field, which would also shift the page horizontally. */
-.ios-input-fix {
-  font-size: 16px !important;
-}
-
-.auth-modal-shell {
-  max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 2rem);
-}
-
-@supports (height: 100svh) {
-  .auth-modal-shell {
-    max-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 2rem);
-  }
-}
-
-.q-logo-backdrop {
-  border-radius: 9999px;
-  background: radial-gradient(ellipse at center, rgba(255,255,255,0.26) 0%, rgba(90,90,100,0.45) 28%, rgba(45,45,55,0.2) 55%, transparent 75%);
-  box-shadow: 0 0 90px 40px rgba(80, 80, 100, 0.35);
-}
-/* Apple-inspired metallic silver chrome: a static tonal gradient (base layer)
-   plus a soft diagonal highlight band (second layer) that periodically sweeps
-   across the text via background-position, composited with `screen` blending
-   so the highlight brightens the base tone instead of flatly overpainting it.
-   Shared by the nav wordmark and the hero headline so both "thunder spark"
-   sweeps read as the same brand effect. */
-.metal-shimmer {
-  background-image:
-    linear-gradient(180deg, #f5f5f7 0%, #e2e2e7 55%, #9999a1 100%),
-    linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.95) 46%, transparent 62%);
-  background-size: 100% 100%, 250% 100%;
-  background-position: 0 0, -250% 0;
-  background-blend-mode: screen;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: metal-shimmer-sweep 7s ease-in-out infinite;
-}
-
-@keyframes metal-shimmer-sweep {
-  0%, 78% { background-position: 0 0, -250% 0; }
-  92%, 100% { background-position: 0 0, 250% 0; }
-}
-
-.wordmark-quickstart {
-  background: linear-gradient(180deg, #f5f5f7 0%, #e2e2e7 55%, #9999a1 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.wordmark-ai {
-  background: linear-gradient(180deg, #b6f5b0 0%, #6fdc66 40%, #34a853 70%, #4ee04a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--brandGreen) 45%, transparent));
+        </div>
+      </body>
+    </html>
+  );
 }
