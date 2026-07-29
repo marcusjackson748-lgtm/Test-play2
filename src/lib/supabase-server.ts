@@ -1,10 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-import { describeMissingSupabaseEnvVars } from './supabaseClient';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 let hasLoggedMissingSupabaseConfig = false;
 
 /**
@@ -13,25 +9,27 @@ let hasLoggedMissingSupabaseConfig = false;
  * can be applied correctly.
  *
  * Returns `null` when the required environment variables are not set so that
- * callers can handle the unconfigured case gracefully (e.g. redirect to login).
- *
- * Usage:
- *   const supabase = await createSupabaseServerClient();
- *   if (!supabase) redirect('/');
- *   const { data: { user } } = await supabase.auth.getUser();
+ * callers can handle the unconfigured case gracefully (e.g., redirect to login).
  */
 export async function createSupabaseServerClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // 1. Gracefully handle missing Environment Variables
   if (!supabaseUrl || !supabaseAnonKey) {
     if (!hasLoggedMissingSupabaseConfig) {
-      // eslint-disable-next-line no-console
-      console.error(describeMissingSupabaseEnvVars());
+      console.error(
+        '⚠️ Supabase Environment Variables Missing: Ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in your .env.local or Vercel dashboard.'
+      );
       hasLoggedMissingSupabaseConfig = true;
     }
     return null;
   }
 
+  // 2. Await cookies() for Next.js 15 compatibility
   const cookieStore = await cookies();
 
+  // 3. Return the authenticated server client
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
@@ -40,7 +38,7 @@ export async function createSupabaseServerClient() {
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options),
+            cookieStore.set(name, value, options)
           );
         } catch {
           // Server Components cannot set cookies — only Route Handlers /
