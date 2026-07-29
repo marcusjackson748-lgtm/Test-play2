@@ -1,32 +1,36 @@
+import React from 'react'
+
 interface StatCardProps {
-  label: string;
-  value: string;
-  change?: string;
-  trend?: "up" | "down" | "neutral";
+  title: string
+  value: string | number
+  change?: string
+  trend?: 'up' | 'down' | 'neutral'
+  icon?: React.ReactNode
 }
 
-export function StatCard({
-  label,
-  value,
-  change,
-  trend = "neutral",
-}: StatCardProps) {
-  const trendColor =
-    trend === "up"
-      ? "text-emerald-400"
-      : trend === "down"
-      ? "text-red-400"
-      : "text-zinc-500";
-
+export default function StatCard({ title, value, change, trend, icon }: StatCardProps) {
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-[#131417] p-5">
-      <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-        {label}
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</span>
+        {icon && <div className="text-gray-400">{icon}</div>}
       </div>
-      <div className="mt-2 flex items-baseline gap-2">
-        <span className="text-2xl font-semibold text-white">{value}</span>
-        {change && <span className={`text-xs ${trendColor}`}>{change}</span>}
+      <div className="mt-2 flex items-baseline justify-between">
+        <div className="text-2xl font-semibold text-gray-900 dark:text-white">{value}</div>
+        {change && (
+          <span
+            className={`text-xs font-medium ${
+              trend === 'up'
+                ? 'text-green-600 dark:text-green-400'
+                : trend === 'down'
+                ? 'text-red-600 dark:text-red-400'
+                : 'text-gray-500'
+            }`}
+          >
+            {change}
+          </span>
+        )}
       </div>
     </div>
-  );
+  )
 }
