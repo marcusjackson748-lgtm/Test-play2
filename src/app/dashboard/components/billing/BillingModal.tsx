@@ -34,7 +34,7 @@ export default function BillingModal({ open, onClose }: BillingModalProps) {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ duration: 0.28, ease: "easeOut" }}
-            className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[94%] sm:w-[96%] max-w-lg z-50 max-h-[92vh] overflow-y-auto rounded-t-[32px] bg-[rgba(20,20,24,0.92)] backdrop-blur-[28px] border border-white/[0.08] shadow-[0_30px_80px_rgba(0,0,0,0.45)] pb-10"
+            className="fixed bottom-0 inset-x-0 mx-auto w-[94%] sm:w-[96%] max-w-lg z-50 max-h-[92vh] overflow-y-auto rounded-t-[32px] bg-[rgba(20,20,24,0.92)] backdrop-blur-[28px] border border-white/[0.08] shadow-[0_30px_80px_rgba(0,0,0,0.45)] pb-10"
           >
             {/* Drag indicator */}
             <div className="flex justify-center pt-3">
