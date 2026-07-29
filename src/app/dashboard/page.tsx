@@ -1,92 +1,70 @@
-import { createSupabaseServerClient } from '@/lib/supabase-server';
-import { redirect } from 'next/navigation';
+import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
 
-export default async function DashboardPage() {
-  const supabase = await createSupabaseServerClient();
+const inter = Inter({
+  variable: "--font-sans",
+  subsets: ["latin"],
+});
 
-  if (!supabase) {
-    redirect('/login');
-  }
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+});
 
-  const { data: { user } } = await supabase.auth.getUser();
+export const metadata: Metadata = {
+  title: "QuickStart.Ai | Emergent Edition",
+  description: "Cinematic AI architecture and lightning-fast deployment for next-gen agents.",
+};
 
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <div className="space-y-10">
-      
-      {/* Cinematic Header */}
-      <div className="flex flex-col gap-2">
-        <h1 className="text-4xl font-semibold tracking-tighter text-white">
-          Overview
-        </h1>
-        <p className="text-sm text-neutral-500">
-          Welcome back, <span className="text-neutral-300 font-medium">{user?.email ?? 'Commander'}</span>. All systems online.
-        </p>
-      </div>
+    <html lang="en" className="dark">
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#030712] text-[#f3f4f6] selection:bg-cyan-500 selection:text-black min-h-screen relative overflow-x-hidden`}
+      >
+        {/* Cinematic Background Glows & Vignette */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-b from-cyan-500/10 via-indigo-500/5 to-transparent blur-[120px] pointer-events-none -z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))] pointer-events-none -z-10" />
 
-      {/* Emergent-Style Stat Grid */}
-      <div className="grid gap-4 md:grid-cols-3">
-        
-        {/* Card 1: Revenue */}
-        <div className="group relative overflow-hidden rounded-2xl border border-white/5 bg-[#0A0A0A] p-6 transition-all duration-500 hover:border-white/10 hover:bg-[#0F0F0F]">
-          {/* Subtle top-down gradient on hover */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-widest text-neutral-500">Net Revenue</p>
-            <div className="mt-4 flex items-baseline gap-3">
-              <h2 className="text-4xl font-light tracking-tighter text-white">$45,231</h2>
-              <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20">
-                +20.1%
+        {/* Emergent Shell Container */}
+        <div className="flex flex-col min-h-screen border-x border-white/[0.08] max-w-7xl mx-auto shadow-2xl shadow-black">
+          
+          {/* Top Brand Nav / Telemetry Bar */}
+          <header className="h-14 border-b border-white/[0.08] px-6 flex items-center justify-between backdrop-blur-md bg-[#030712]/80 sticky top-0 z-50">
+            <div className="flex items-center space-x-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)] animate-pulse" />
+              <span className="font-mono text-xs tracking-widest text-cyan-400 font-semibold uppercase">
+                QuickStart.Ai <span className="text-white/40">// EMERGE</span>
               </span>
             </div>
-          </div>
-        </div>
-
-        {/* Card 2: Active Users */}
-        <div className="group relative overflow-hidden rounded-2xl border border-white/5 bg-[#0A0A0A] p-6 transition-all duration-500 hover:border-white/10 hover:bg-[#0F0F0F]">
-          <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-widest text-neutral-500">Active Now</p>
-            <div className="mt-4 flex items-baseline gap-3">
-              <h2 className="text-4xl font-light tracking-tighter text-white">1,204</h2>
-              <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20">
-                +12.5%
-              </span>
+            <div className="flex items-center space-x-4 text-xs font-mono text-white/50">
+              <span className="hidden sm:inline">SYS_STATUS: <strong className="text-emerald-400">ONLINE</strong></span>
+              <span className="border-l border-white/10 pl-4">LATENCY: <strong className="text-white/90">14ms</strong></span>
             </div>
-          </div>
-        </div>
+          </header>
 
-        {/* Card 3: System Status */}
-        <div className="group relative overflow-hidden rounded-2xl border border-white/5 bg-[#0A0A0A] p-6 transition-all duration-500 hover:border-white/10 hover:bg-[#0F0F0F]">
-          <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-widest text-neutral-500">System Status</p>
-            <div className="mt-4 flex items-center gap-3 h-[40px]">
-              <div className="flex items-center gap-2">
-                <span className="relative flex h-3 w-3">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500"></span>
-                </span>
-                <span className="text-lg text-neutral-300">Operational</span>
-              </div>
+          {/* Main Dynamic Viewport */}
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
+
+          {/* Cinematic Footer */}
+          <footer className="border-t border-white/[0.08] py-6 px-6 text-center text-xs font-mono text-white/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#030712]">
+            <p>© {new Date().getFullYear()} QuickStart.Ai Inc. All rights reserved.</p>
+            <div className="flex space-x-6 text-white/60">
+              <a href="#" className="hover:text-cyan-400 transition-colors">Documentation</a>
+              <a href="#" className="hover:text-cyan-400 transition-colors">Telemetry</a>
+              <a href="#" className="hover:text-cyan-400 transition-colors">Security</a>
             </div>
-          </div>
-        </div>
+          </footer>
 
-      </div>
-
-      {/* Main Activity Area */}
-      <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0A0A0A] p-6 shadow-2xl">
-        <div className="mb-6 flex items-center justify-between">
-          <h3 className="text-lg font-medium text-neutral-200">Activity Stream</h3>
-          <button className="text-sm text-neutral-500 transition-colors hover:text-white">View Complete Log</button>
         </div>
-        
-        {/* Placeholder for a chart or data table */}
-        <div className="flex h-64 w-full items-center justify-center rounded-xl border border-white/[0.02] bg-[#050505] shadow-inner">
-          <p className="text-sm text-neutral-600">Data visualization canvas will mount here.</p>
-        </div>
-      </div>
-
-    </div>
+      </body>
+    </html>
   );
 }
