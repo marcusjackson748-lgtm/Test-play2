@@ -1,58 +1,30 @@
-import type { Metadata } from "next";
-import "../../globals.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-export const metadata: Metadata = {
-  title: "QuickStart.Ai | Emergent Edition",
-  description: "Cinematic AI architecture and lightning-fast deployment for next-gen agents.",
-};
+@layer base {
+  :root {
+    --brand-bg: #0a0b0d;
+    --brand-green: #8ef08a;
+    --brand-border: rgba(255, 255, 255, 0.08);
+    --brand-text-sec: rgba(255, 255, 255, 0.5);
+  }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" className="dark">
-      <body className="bg-brandBg text-white antialiased font-sans min-h-screen relative overflow-x-hidden selection:bg-brandGreen selection:text-black">
-        
-        {/* Cinematic Background Glows & Vignette */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-b from-[#8EF08A]/10 via-white/[0.02] to-transparent blur-[120px] pointer-events-none -z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(142,240,138,0.08),rgba(0,0,0,0))] pointer-events-none -z-10" />
+  html {
+    scroll-behavior: smooth;
+  }
 
-        {/* Emergent Shell Container */}
-        <div className="flex flex-col min-h-screen border-x border-brandBorder max-w-7xl mx-auto shadow-2xl bg-brandBg">
-          
-          {/* Top Brand Nav / Telemetry Bar */}
-          <header className="h-14 border-b border-brandBorder px-6 flex items-center justify-between backdrop-blur-md bg-brandBg/80 sticky top-0 z-50">
-            <div className="flex items-center space-x-3">
-              <div className="w-2.5 h-2.5 rounded-full bg-brandGreen shadow-[0_0_12px_rgba(142,240,138,0.8)] animate-pulse" />
-              <span className="font-mono text-xs tracking-widest text-brandGreen font-semibold uppercase">
-                <span className="wordmark-quickstart">QuickStart</span><span className="wordmark-ai">.Ai</span> <span className="text-white/40">// EMERGE</span>
-              </span>
-            </div>
-            <div className="flex items-center space-x-4 text-xs font-mono text-brandTextSec">
-              <span className="hidden sm:inline">SYS_STATUS: <strong className="text-brandGreen">ONLINE</strong></span>
-              <span className="border-l border-brandBorder pl-4">LATENCY: <strong className="text-white/90">14ms</strong></span>
-            </div>
-          </header>
+  body {
+    background-color: var(--brand-bg);
+  }
+}
 
-          {/* Main Dynamic Viewport */}
-          <main className="flex-1 flex flex-col">
-            {children}
-          </main>
+@layer components {
+  .wordmark-quickstart {
+    color: #ffffff;
+  }
 
-          {/* Cinematic Footer */}
-          <footer className="border-t border-brandBorder py-6 px-6 text-center text-xs font-mono text-brandTextSec flex flex-col sm:flex-row items-center justify-between gap-4 bg-brandBg">
-            <p>© {new Date().getFullYear()} QuickStart.Ai Inc. All rights reserved.</p>
-            <div className="flex space-x-6 text-white/60">
-              <a href="#" className="hover:text-brandGreen transition-colors">Documentation</a>
-              <a href="#" className="hover:text-brandGreen transition-colors">Telemetry</a>
-              <a href="#" className="hover:text-brandGreen transition-colors">Security</a>
-            </div>
-          </footer>
-
-        </div>
-      </body>
-    </html>
-  );
+  .wordmark-ai {
+    color: var(--brand-green);
+  }
 }
