@@ -1,166 +1,212 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Menu,
+  Plus,
+  LayoutGrid,
+  Sparkles,
+  Paperclip,
+  ChevronDown,
+  Globe,
+  Settings,
+  Mic,
+  ArrowUp,
+  ChevronRight,
+  Coins,
+  Smartphone,
+  MonitorSmartphone,
+  FileText,
+} from "lucide-react";
+
+const projectTypes = [
+  { id: "web", label: "Web App", icon: MonitorSmartphone },
+  { id: "mobile", label: "Mobile App", icon: Smartphone },
+  { id: "landing", label: "Landing Page", icon: FileText },
+];
 
 export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeType, setActiveType] = useState("web");
+  const [composerFocused, setComposerFocused] = useState(false);
 
   return (
-    <div className="relative flex-1 p-6 md:p-10 space-y-8 overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-40 left-1/4 w-[500px] h-[500px] bg-brandGreen/[0.06] rounded-full blur-[120px]" />
-        <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-indigo-500/[0.05] rounded-full blur-[120px]" />
-      </div>
+    <>
+      {/* Top Navigation Bar */}
+      <header className="h-[72px] px-5 flex items-center justify-between relative z-30">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="w-11 h-11 rounded-full bg-[#2B6CB0]/30 backdrop-blur-md flex items-center justify-center hover:bg-[#2B6CB0]/40 transition-colors active:scale-[0.98]"
+          aria-label="Open menu"
+        >
+          <Menu className="w-5 h-5 text-white" />
+        </button>
 
-      {/* Top Banner & Quick Stats Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brandBorder pb-6">
-        <div>
-          <div className="flex items-center space-x-2 mb-1">
-            <span className="inline-block w-1.5 h-1.5 rounded-sm bg-brandGreen shadow-[0_0_6px_rgba(142,240,138,0.8)]" />
-            <span className="font-mono text-xs text-brandGreen uppercase tracking-[0.2em]">
-              Dashboard Matrix
-            </span>
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white font-sans">
-            Neural Command Center
-          </h1>
-          <p className="text-xs text-brandTextSec mt-1 font-mono">
-            Real-time orchestration across all active deployments
-          </p>
-        </div>
+        <button className="h-11 px-5 rounded-full bg-gradient-to-b from-[#F9E58A] to-[#F4D96B] text-[#3a2e00] font-semibold text-sm shadow-[0_8px_24px_rgba(244,217,107,0.35)] hover:brightness-105 active:scale-[0.98] transition-all">
+          Upgrade Plan
+        </button>
+      </header>
 
-        <div className="flex items-center space-x-3">
-          <button className="px-4 py-2 text-xs font-mono bg-white/[0.03] hover:bg-white/[0.07] text-white/70 border border-brandBorder rounded-md transition-all duration-200">
-            EXPORT_LOGS
-          </button>
-          <button className="px-4 py-2 text-xs font-mono bg-brandGreen hover:brightness-110 text-black font-semibold rounded-md shadow-[0_0_24px_rgba(142,240,138,0.35)] transition-all duration-200">
-            + DEPLOY_AGENT
-          </button>
-        </div>
-      </div>
-
-      {/* Telemetry Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { id: "01", label: "Active Agents", value: "1,024", delta: "+12.4%", bar: "w-[75%]", barColor: "bg-brandGreen", deltaColor: "text-brandGreen" },
-          { id: "02", label: "Inferences / Sec", value: "48.2K", delta: "+5.1%", bar: "w-[60%]", barColor: "bg-indigo-400", deltaColor: "text-brandGreen" },
-          { id: "03", label: "Average Latency", value: "14.8ms", delta: "-2.3ms", bar: "w-[90%]", barColor: "bg-emerald-400", deltaColor: "text-brandGreen" },
-          { id: "04", label: "Cluster Health", value: "99.9%", delta: "STABLE", bar: "w-full", barColor: "bg-brandGreen", deltaColor: "text-white/40", valueColor: "text-brandGreen" },
-        ].map((m) => (
-          <div
-            key={m.id}
-            className="p-5 rounded-xl bg-white/[0.02] border border-brandBorder relative overflow-hidden backdrop-blur-sm group hover:border-brandGreen/40 hover:bg-white/[0.03] transition-all duration-300"
-          >
-            <div className="absolute top-0 right-0 p-4 text-white/[0.06] font-mono text-2xl font-bold select-none">
-              {m.id}
-            </div>
-            <p className="font-mono text-[11px] text-brandTextSec uppercase tracking-widest">
-              {m.label}
-            </p>
-            <div className="mt-2 flex items-baseline space-x-2">
-              <span className={`text-3xl font-bold font-mono ${m.valueColor ?? "text-white"}`}>
-                {m.value}
-              </span>
-              <span className={`text-xs font-mono ${m.deltaColor}`}>{m.delta}</span>
-            </div>
-            <div className="mt-4 w-full bg-white/[0.05] h-[3px] rounded-full overflow-hidden">
-              <div className={`${m.barColor} h-full ${m.bar} transition-all duration-700`} />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Main Content Workspace */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Columns: Live Feed / Terminal */}
-        <div className="lg:col-span-2 rounded-xl bg-[#010409] border border-brandBorder flex flex-col shadow-[0_0_40px_rgba(0,0,0,0.4)]">
-          <div className="flex items-center justify-between border-b border-brandBorder px-4 py-3">
-            <div className="flex items-center space-x-2 font-mono text-xs text-white/60">
-              <span className="w-2 h-2 rounded-full bg-red-500/70" />
-              <span className="w-2 h-2 rounded-full bg-yellow-500/70" />
-              <span className="w-2 h-2 rounded-full bg-green-500/70" />
-              <span className="ml-2 font-semibold text-white/80">emergent-stream.log</span>
-            </div>
-
-            <div className="flex space-x-1 bg-white/[0.03] p-1 rounded-md border border-brandBorder">
-              <button
-                onClick={() => setActiveTab("overview")}
-                className={`px-3 py-1 text-xs font-mono rounded transition-all duration-200 ${
-                  activeTab === "overview"
-                    ? "bg-brandGreen text-black font-semibold"
-                    : "text-white/60 hover:text-white"
-                }`}
-              >
-                LIVE_STREAM
-              </button>
-              <button
-                onClick={() => setActiveTab("clusters")}
-                className={`px-3 py-1 text-xs font-mono rounded transition-all duration-200 ${
-                  activeTab === "clusters"
-                    ? "bg-brandGreen text-black font-semibold"
-                    : "text-white/60 hover:text-white"
-                }`}
-              >
-                NODES
-              </button>
-            </div>
-          </div>
-
-          <div className="p-5 font-mono text-xs space-y-3 flex-1 min-h-[320px] text-white/70 overflow-y-auto">
-            {[
-              { t: "[15:42:01]", tag: "INFO", tagColor: "text-brandGreen", msg: "Initializing QuickStart.Ai cinematic wrapper core..." },
-              { t: "[15:42:03]", tag: "SUCCESS", tagColor: "text-emerald-400", msg: "Cluster node [us-east-1a] synchronized successfully." },
-              { t: "[15:42:06]", tag: "INFO", tagColor: "text-brandGreen", msg: "Spawning container runtime for Agent_v4.2..." },
-              { t: "[15:42:09]", tag: "WARN", tagColor: "text-yellow-400", msg: "Token usage threshold approaching 80% capacity limit." },
-              { t: "[15:42:12]", tag: "ONLINE", tagColor: "text-emerald-400", msg: "Inference pipeline steady at 14.8ms response time." },
-            ].map((line, i) => (
-              <div key={i} className="flex items-center space-x-2 text-white/40">
-                <span>{line.t}</span>
-                <span className={line.tagColor}>{line.tag}</span>
-                <span>{line.msg}</span>
-              </div>
-            ))}
-            <div className="flex items-center space-x-2 text-brandGreen animate-pulse pt-2">
-              <span>_</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Active Deployments */}
-        <div className="rounded-xl bg-white/[0.02] border border-brandBorder p-5 flex flex-col justify-between">
-          <div>
-            <h3 className="font-mono text-xs text-brandTextSec uppercase tracking-widest mb-4">
-              Active Deployments
-            </h3>
-
-            <div className="space-y-3">
-              {[
-                { name: "agent-core-primus", meta: "us-east-1 • GPT-4o Engine" },
-                { name: "synth-parser-v2", meta: "eu-west-1 • Claude 3.5 Sonnet" },
-                { name: "vector-embed-cluster", meta: "ap-southeast-1 • Ada-002" },
-              ].map((node) => (
-                <div
-                  key={node.name}
-                  className="p-3 rounded-lg bg-white/[0.02] border border-brandBorder flex items-center justify-between hover:border-brandGreen/30 transition-colors duration-200"
+      {/* Sidebar */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSidebarOpen(false)}
+              className="fixed inset-0 bg-black/50 z-40"
+            />
+            <motion.aside
+              initial={{ x: -320 }}
+              animate={{ x: 0 }}
+              exit={{ x: -320 }}
+              transition={{ duration: 0.28, ease: "easeOut" }}
+              className="fixed top-0 left-0 h-full w-[320px] bg-[rgba(10,10,12,0.92)] backdrop-blur-2xl border-r border-white/[0.08] z-50 flex flex-col p-5"
+            >
+              <div className="flex items-center justify-between mb-8">
+                <span className="text-lg font-semibold text-white">QuickStart.Ai</span>
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-white/50 hover:text-white transition-colors"
                 >
-                  <div>
-                    <p className="text-sm font-semibold text-white">{node.name}</p>
-                    <p className="font-mono text-[10px] text-brandTextSec">{node.meta}</p>
-                  </div>
-                  <span className="w-2 h-2 rounded-full bg-brandGreen shadow-[0_0_8px_rgba(142,240,138,0.8)]" />
+                  ✕
+                </button>
+              </div>
+
+              <button className="flex items-center gap-3 mb-6 group">
+                <span className="w-8 h-8 rounded-full bg-[#34F5A0] flex items-center justify-center">
+                  <Plus className="w-4 h-4 text-black" />
+                </span>
+                <span className="text-[#34F5A0] font-semibold text-base">New Task</span>
+              </button>
+
+              <nav className="space-y-4 mb-8">
+                <button className="flex items-center gap-3 text-[#8F939A] hover:text-white transition-colors">
+                  <LayoutGrid className="w-4 h-4" />
+                  <span className="text-sm">Published Apps</span>
+                </button>
+                <button className="flex items-center gap-3 text-[#8F939A] hover:text-white transition-colors">
+                  <Sparkles className="w-4 h-4" />
+                  <span className="text-sm">Showcase</span>
+                </button>
+              </nav>
+
+              <div className="flex-1 flex flex-col">
+                <h3 className="text-sm font-semibold text-white mb-4">Recent Tasks</h3>
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
+                  <p className="text-[#8F939A] text-sm font-medium mb-1">No tasks yet</p>
+                  <p className="text-[#8F939A]/70 text-xs">
+                    Create your first task to start building
+                  </p>
                 </div>
-              ))}
+              </div>
+
+              {/* User Card */}
+              <div className="rounded-2xl bg-white/[0.03] border border-white/[0.08] p-4 mt-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Coins className="w-4 h-4 text-[#F4D96B]" />
+                    <span className="text-white text-sm font-medium">0.00</span>
+                  </div>
+                  <button className="text-xs font-semibold text-[#3a2e00] bg-[#F4D96B] px-3 py-1.5 rounded-full hover:brightness-105 transition-all">
+                    Upgrade
+                  </button>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="w-9 h-9 rounded-full bg-[#2B6CB0] flex items-center justify-center text-white text-sm font-semibold">
+                      Q
+                    </span>
+                    <div>
+                      <p className="text-white text-sm font-medium leading-tight">
+                        QuickStart User
+                      </p>
+                      <p className="text-[#8F939A] text-xs leading-tight">
+                        user@quickstart.ai
+                      </p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-[#8F939A]" />
+                </div>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Hero Section */}
+      <main className="flex-1 flex flex-col items-center justify-center px-6 relative z-10">
+        <h1 className="text-[44px] md:text-[52px] font-semibold text-white text-center leading-tight max-w-2xl">
+          Where ideas become reality
+        </h1>
+
+        {/* Project Type Selector */}
+        <div className="flex items-center gap-3 mt-8 overflow-x-auto max-w-full px-2 pb-1">
+          {projectTypes.map((type) => {
+            const Icon = type.icon;
+            const active = activeType === type.id;
+            return (
+              <button
+                key={type.id}
+                onClick={() => setActiveType(type.id)}
+                className={`flex items-center gap-2 h-[42px] px-5 rounded-full text-sm font-medium whitespace-nowrap transition-all active:scale-[0.98] ${
+                  active
+                    ? "bg-white/[0.12] text-white"
+                    : "bg-white/[0.04] text-[#8F939A] hover:bg-white/[0.07]"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {type.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* AI Prompt Composer */}
+        <div
+          className={`w-full md:w-[760px] mt-10 rounded-[28px] bg-[rgba(22,22,26,0.72)] backdrop-blur-2xl border border-white/[0.08] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-shadow duration-300 ${
+            composerFocused ? "shadow-[0_0_0_1px_rgba(52,245,160,0.3),0_20px_60px_rgba(0,0,0,0.35)]" : ""
+          }`}
+        >
+          <textarea
+            onFocus={() => setComposerFocused(true)}
+            onBlur={() => setComposerFocused(false)}
+            placeholder="Build me an e-commerce platform with…"
+            rows={3}
+            className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
+          />
+
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center gap-2">
+              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
+                <Paperclip className="w-4 h-4 text-white/70" />
+              </button>
+              <button className="h-10 px-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center gap-1 text-sm text-white/80 transition-colors active:scale-[0.98]">
+                E-1
+                <ChevronDown className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
+                <Globe className="w-4 h-4 text-white/70" />
+              </button>
+              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
+                <Settings className="w-4 h-4 text-white/70" />
+              </button>
+              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
+                <Mic className="w-4 h-4 text-white/70" />
+              </button>
+              <button className="w-10 h-10 rounded-full bg-[#34F5A0] flex items-center justify-center hover:brightness-110 transition-all active:scale-[0.98]">
+                <ArrowUp className="w-4 h-4 text-black" />
+              </button>
             </div>
           </div>
-
-          <div className="mt-6 pt-4 border-t border-brandBorder">
-            <button className="w-full py-2.5 bg-white/[0.05] hover:bg-white/[0.1] border border-brandBorder text-xs font-mono text-white rounded-md transition-all duration-200">
-              VIEW_ALL_NODES (12)
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
