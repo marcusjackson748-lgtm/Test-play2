@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
-import { Sidebar } from "@/components/dashboard/Sidebar";
-import { Topbar } from "@/components/dashboard/Topbar";
+
+// Using default imports (no curly braces) to fix the "module not found" error
+import Sidebar from "@/components/dashboard/Sidebar";
+import Topbar from "@/components/dashboard/Topbar";
 
 export default async function DashboardLayout({
   children,
@@ -11,9 +13,9 @@ export default async function DashboardLayout({
   // 1. Initialize your Supabase server client
   const supabase = await createSupabaseServerClient();
 
-  // 2. Handle missing environment variables gracefully (as defined in your code)
+  // 2. Handle missing environment variables gracefully
   if (!supabase) {
-    redirect("/login"); // Change "/login" to your actual sign-in route if different
+    redirect("/login");
   }
 
   // 3. Fetch the current user to verify they are authenticated
@@ -30,7 +32,7 @@ export default async function DashboardLayout({
       <Sidebar />
       <div className="flex flex-1 flex-col">
         <Topbar />
-        <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-950">
+        <main className="flex-1 p-6">
           {children}
         </main>
       </div>
