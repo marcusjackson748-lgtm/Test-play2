@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import TopBar from "./components/TopBar";
 import Sidebar from "./components/Sidebar";
+import BillingModal from "./components/billing/BillingModal";
 import {
   Paperclip,
   ChevronDown,
@@ -23,21 +24,28 @@ const projectTypes = [
 
 export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [billingOpen, setBillingOpen] = useState(false);
   const [activeType, setActiveType] = useState("web");
   const [composerFocused, setComposerFocused] = useState(false);
 
   return (
     <>
-      <TopBar onMenuClick={() => setSidebarOpen(true)} />
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <TopBar
+        onMenuClick={() => setSidebarOpen(true)}
+        onUpgradeClick={() => setBillingOpen(true)}
+      />
+      <Sidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onUpgradeClick={() => setBillingOpen(true)}
+      />
+      <BillingModal open={billingOpen} onClose={() => setBillingOpen(false)} />
 
-      {/* Hero Section */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 relative z-10">
         <h1 className="text-[44px] md:text-[52px] font-semibold text-white text-center leading-tight max-w-2xl">
           Where ideas become reality
         </h1>
 
-        {/* Project Type Selector */}
         <div className="flex items-center gap-3 mt-8 overflow-x-auto max-w-full px-2 pb-1">
           {projectTypes.map((type) => {
             const Icon = type.icon;
@@ -59,7 +67,6 @@ export default function DashboardPage() {
           })}
         </div>
 
-        {/* AI Prompt Composer */}
         <div
           className={`w-full md:w-[760px] mt-10 rounded-[28px] bg-[rgba(22,22,26,0.72)] backdrop-blur-2xl border border-white/[0.08] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-shadow duration-300 ${
             composerFocused
