@@ -2,70 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --brandBg: #050505;
+  --brandSurface: #0f0f0f;
+  --brandSurfaceAccent: #151515;
+  --brandBorder: rgba(255, 255, 255, 0.08);
+  --brandGreen: #8EF08A;
+  --brandTextSec: #a1a1aa;
+}
+
 body {
-  background-color: #03030c;
-  color: #f3f4f6;
+  background-color: var(--brandBg);
+  color: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
-/* Custom Scrollbar for Sci-Fi UI */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a16;
-}
-::-webkit-scrollbar-thumb {
-  background: #00f0ff;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #bd00ff;
+.bg-brandBg { background-color: var(--brandBg); }
+.bg-brandSurface { background-color: var(--brandSurface); }
+.bg-brandSurfaceAccent { background-color: var(--brandSurfaceAccent); }
+.border-brandBorder { border-color: var(--brandBorder); }
+.bg-brandGreen { background-color: var(--brandGreen); }
+.text-brandGreen { color: var(--brandGreen); }
+.text-brandTextSec { color: var(--brandTextSec); }
+.selection\:bg-brandGreen ::selection { background-color: var(--brandGreen); color: #000000; }
+.rounded-pill { border-radius: 9999px; }
+.rounded-premium { border-radius: 24px; }
+
+.glass-card {
+  background: rgba(16, 16, 16, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--brandBorder);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Starry backdrop animation */
-@keyframes drift {
-  from { transform: translateY(0px); }
-  to { transform: translateY(-1000px); }
+.glass-card:hover {
+  border-color: rgba(142, 240, 138, 0.3);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -15px rgba(142, 240, 138, 0.12);
 }
 
-.star-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200%;
-  background-image: 
-    radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 100px 150px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 200px 300px, rgba(0,240,255,0.8), rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 350px 50px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 400px 250px, rgba(189,0,255,0.7), rgba(0,0,0,0));
-  background-size: 500px 500px;
-  animation: drift 180s linear infinite;
-  opacity: 0.45;
-  pointer-events: none;
+.wordmark-quickstart {
+  background: linear-gradient(180deg, #f5f5f7 0%, #e2e2e7 55%, #9999a1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.scanner-line {
-  position: relative;
-  overflow: hidden;
-}
-.scanner-line::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0,240,255,0) 0%, rgba(0,240,255,0.06) 50%, rgba(0,240,255,0) 100%);
-  animation: scan 4s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes scan {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+.wordmark-ai {
+  background: linear-gradient(180deg, #b6f5b0 0%, #6fdc66 40%, #34a853 70%, #4ee04a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--brandGreen) 45%, transparent));
 }
