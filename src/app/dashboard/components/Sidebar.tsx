@@ -7,9 +7,10 @@ import { Plus, LayoutGrid, Sparkles, ChevronRight, Coins } from "lucide-react";
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
+  onUpgradeClick: () => void;
 }
 
-export default function Sidebar({ open, onClose }: SidebarProps) {
+export default function Sidebar({ open, onClose, onUpgradeClick }: SidebarProps) {
   return (
     <AnimatePresence>
       {open && (
@@ -67,14 +68,16 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               </div>
             </div>
 
-            {/* User Card */}
             <div className="rounded-2xl bg-white/[0.03] border border-white/[0.08] p-4 mt-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <Coins className="w-4 h-4 text-[#F4D96B]" />
                   <span className="text-white text-sm font-medium">0.00</span>
                 </div>
-                <button className="text-xs font-semibold text-[#3a2e00] bg-[#F4D96B] px-3 py-1.5 rounded-full hover:brightness-105 transition-all">
+                <button
+                  onClick={onUpgradeClick}
+                  className="text-xs font-semibold text-[#3a2e00] bg-[#F4D96B] px-3 py-1.5 rounded-full hover:brightness-105 transition-all"
+                >
                   Upgrade
                 </button>
               </div>
