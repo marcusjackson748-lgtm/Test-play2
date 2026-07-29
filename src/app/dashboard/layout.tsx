@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "QuickStart.Ai | Emergent Dashboard",
-  description: "Cinematic telemetry and agent management matrix.",
+  title: "QuickStart.Ai | Dashboard",
+  description: "Where ideas become reality.",
 };
 
 export default function DashboardLayout({
@@ -11,10 +11,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative flex flex-col min-h-full bg-brandBg text-white">
-      {/* Base vignette for cinematic depth */}
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(142,240,138,0.04),_transparent_60%)]" />
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[linear-gradient(180deg,_rgba(0,0,0,0)_0%,_rgba(0,0,0,0.4)_100%)]" />
+    <div className="relative flex flex-col min-h-screen bg-[#060606] text-white overflow-hidden">
+      {/* Deep blue-to-black atmospheric background */}
+      <div className="pointer-events-none fixed inset-0 -z-20 bg-gradient-to-b from-[#1E5FAF]/40 via-[#0d1a2e] to-[#060606]" />
+      {/* Center glow */}
+      <div className="pointer-events-none fixed top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[600px] -z-10 bg-[#2B6CB0]/20 blur-[140px] rounded-full" />
 
       {children}
     </div>
