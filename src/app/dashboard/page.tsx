@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import TopBar from "./components/TopBar";
 import Sidebar from "./components/Sidebar";
 import BillingModal from "./components/billing/BillingModal";
@@ -23,6 +23,10 @@ import {
   Cpu,
   Github,
   ChevronRight,
+  Image as ImageIcon,
+  Camera,
+  FolderOpen,
+  Triangle,
 } from "lucide-react";
 
 const projectTypes = [
@@ -49,6 +53,12 @@ export default function DashboardPage() {
   const [isAdvancedModalOpen, setIsAdvancedModalOpen] = useState(false);
   const [maxxEnabled, setMaxxEnabled] = useState(false);
   const [selectedModel, setSelectedModel] = useState("Auto");
+
+  // File Upload Popover & Hidden Inputs State
+  const [isUploadPopoverOpen, setIsUploadPopoverOpen] = useState(false);
+  const photoLibraryInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const chooseFilesInputRef = useRef<HTMLInputElement>(null);
 
   const agents = [
     { id: "E-1", title: "E-1", subtitle: "Stable & thorough" },
@@ -111,10 +121,94 @@ export default function DashboardPage() {
             className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
           />
 
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center gap-2">
-              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
-                <Paperclip className="w-4 h-4 text-white/70" />
+          <div className="flex items-center justify-between mt-4 relative">
+            <div className="flex items-center gap-2 relative">
+              {/* Hidden File Inputs */}
+              <input
+                type="file"
+                ref={photoLibraryInputRef}
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  console.log(e.target.files);
+                  setIsUploadPopoverOpen(false);
+                }}
+              />
+              <input
+                type="file"
+                ref={cameraInputRef}
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={(e) => {
+                  console.log(e.target.files);
+                  setIsUploadPopoverOpen(false);
+                }}
+              />
+              <input
+                type="file"
+                ref={chooseFilesInputRef}
+                multiple
+                className="hidden"
+                onChange={(e) => {
+                  console.log(e.target.files);
+                  setIsUploadPopoverOpen(false);
+                }}
+              />
+
+              {/* Upload Popover Menu */}
+              <AnimatePresence>
+                {isUploadPopoverOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
+                    className="absolute left-0 bottom-12 z-50 w-64 bg-[#121215] border border-white/[0.08] rounded-[22px] p-2 shadow-[0_16px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl space-y-1"
+                  >
+                    <button
+                      onClick={() => photoLibraryInputRef.current?.click()}
+                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                    >
+                      <span className="font-medium">Photo Library</span>
+                      <ImageIcon className="w-4 h-4 text-[#8F939A]" />
+                    </button>
+                    <button
+                      onClick={() => cameraInputRef.current?.click()}
+                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                    >
+                      <span className="font-medium">Take Photo or Video</span>
+                      <Camera className="w-4 h-4 text-[#8F939A]" />
+                    </button>
+                    <button
+                      onClick={() => chooseFilesInputRef.current?.click()}
+                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                    >
+                      <span className="font-medium">Choose Files</span>
+                      <FolderOpen className="w-4 h-4 text-[#8F939A]" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        alert("Google Drive integration triggered");
+                        setIsUploadPopoverOpen(false);
+                      }}
+                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                    >
+                      <span className="font-medium">Google Drive</span>
+                      <Triangle className="w-4 h-4 text-[#8F939A]" />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Attachment Clip Button */}
+              <button
+                onClick={() => setIsUploadPopoverOpen(!isUploadPopoverOpen)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors active:scale-[0.98] ${
+                  isUploadPopoverOpen ? "bg-white/[0.12] text-white" : "bg-white/[0.05] hover:bg-white/[0.1] text-white/70"
+                }`}
+              >
+                <Paperclip className="w-4 h-4" />
               </button>
 
               {/* Interactive E-1 Agent Selector Button */}
@@ -129,14 +223,12 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Privacy Settings Button */}
               <button
                 onClick={() => setIsPrivacyModalOpen(true)}
                 className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]"
               >
                 <Globe className="w-4 h-4 text-white/70" />
               </button>
-              {/* Advanced Controls Button (Circled in image) */}
               <button
                 onClick={() => setIsAdvancedModalOpen(true)}
                 className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]"
@@ -316,7 +408,6 @@ export default function DashboardPage() {
               </div>
 
               <div className="space-y-4">
-                {/* Maxx Toggle Row */}
                 <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 rounded-full bg-white/[0.05] flex items-center justify-center text-white">
@@ -334,7 +425,6 @@ export default function DashboardPage() {
                   </button>
                 </div>
 
-                {/* Select Model Section */}
                 <div className="space-y-1.5">
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A] px-1">
                     Select Model
@@ -348,7 +438,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Select MCP Tools Section */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between px-1">
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A]">
@@ -367,7 +456,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* GitHub Integration Section */}
                 <div className="space-y-1.5">
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A] px-1">
                     GitHub
@@ -381,7 +469,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Select Template Section */}
                 <div className="space-y-1.5">
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A] px-1">
                     Select Template
