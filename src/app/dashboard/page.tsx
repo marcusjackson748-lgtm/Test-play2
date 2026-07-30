@@ -83,16 +83,14 @@ export default function DashboardPage() {
     };
   }, [isUploadPopoverOpen]);
 
-  // Handle Voice Recording Logic using Web MediaRecorder API & SpeechRecognition if available
+  // Handle Voice Recording Logic
   const toggleRecording = async () => {
     if (isRecording) {
-      // Stop Recording
       if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
         mediaRecorderRef.current.stop();
       }
       setIsRecording(false);
     } else {
-      // Start Recording
       audioChunksRef.current = [];
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -109,14 +107,12 @@ export default function DashboardPage() {
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
           const audioUrl = URL.createObjectURL(audioBlob);
           console.log("Audio recording saved:", audioUrl);
-          // Stop all audio tracks on the stream
           stream.getTracks().forEach(track => track.stop());
         };
 
         mediaRecorder.start();
         setIsRecording(true);
 
-        // Optional: browser SpeechRecognition integration for live transcript transcription if supported
         const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
         if (SpeechRecognition) {
           const recognition = new SpeechRecognition();
@@ -242,15 +238,15 @@ export default function DashboardPage() {
             )}
           </AnimatePresence>
 
-          {/* Premium AI Chat Input Container with Continuous 360-Degree Orbiting Highlight */}
-          <div className="relative rounded-[24px] p-[1px] overflow-visible group shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+          {/* Premium AI Chat Input Container with Exact Graphite Background & Continuous Orbiting Highlight */}
+          <div className="relative rounded-[24px] p-[1px] overflow-visible group shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
             {/* Continuously moving 360-degree white highlight orbiter */}
-            <div className="absolute inset-0 rounded-[24px] pointer-events-none overflow-hidden z-20">
+            <div className="absolute inset-0 rounded-[24px] pointer-events-none overflow-hidden z-25">
               <div className="absolute -inset-[150%] animate-orbit-border bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,transparent_310deg,rgba(232,232,232,0.4)_340deg,#FFFFFF_355deg,transparent_360deg)]" />
             </div>
 
-            {/* Inner Glass Box */}
-            <div className="relative rounded-[23px] bg-[#161618] border border-[#3A3A42] backdrop-blur-2xl p-5 z-30 overflow-hidden">
+            {/* Inner Graphite Glass Box matching #26252A */}
+            <div className="relative rounded-[23px] bg-[#26252A] border border-[rgba(255,255,255,0.08)] backdrop-blur-2xl p-5 z-30 overflow-hidden">
               <textarea
                 onFocus={() => setComposerFocused(true)}
                 onBlur={() => setComposerFocused(false)}
@@ -299,7 +295,7 @@ export default function DashboardPage() {
                     className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all active:scale-[0.98] ${
                       isUploadPopoverOpen
                         ? "bg-white/[0.08] border-white/[0.2] text-white"
-                        : "bg-white/[0.03] border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
+                        : "bg-white/[0.03] border-[rgba(255,255,255,0.08)] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
                     }`}
                   >
                     <Paperclip className="w-4 h-4" />
@@ -308,7 +304,7 @@ export default function DashboardPage() {
                   {/* E-1 Agent Selector Button with Preserved Green Accent */}
                   <button
                     onClick={() => setIsAgentModalOpen(true)}
-                    className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-[#3A3A42] hover:border-white/[0.12] whitespace-nowrap"
+                    className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-[rgba(255,255,255,0.08)] hover:border-white/[0.12] whitespace-nowrap"
                   >
                     <Bot className="w-4 h-4 text-[#34F5A0]" />
                     <span className="font-medium tracking-tight">E-1</span>
@@ -319,13 +315,13 @@ export default function DashboardPage() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsPrivacyModalOpen(true)}
-                    className="w-10 h-10 rounded-full bg-white/[0.03] border border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
+                    className="w-10 h-10 rounded-full bg-white/[0.03] border border-[rgba(255,255,255,0.08)] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
                   >
                     <Globe className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setIsAdvancedModalOpen(true)}
-                    className="w-10 h-10 rounded-full bg-white/[0.03] border border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
+                    className="w-10 h-10 rounded-full bg-white/[0.03] border border-[rgba(255,255,255,0.08)] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
                   >
                     <Settings className="w-4 h-4" />
                   </button>
@@ -337,7 +333,7 @@ export default function DashboardPage() {
                     className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all active:scale-[0.98] ${
                       isRecording
                         ? "bg-red-500/20 border-red-500 text-red-400 animate-pulse shadow-[0_0_12px_rgba(239,68,68,0.4)]"
-                        : "bg-white/[0.03] border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
+                        : "bg-white/[0.03] border-[rgba(255,255,255,0.08)] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
                     }`}
                   >
                     {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
