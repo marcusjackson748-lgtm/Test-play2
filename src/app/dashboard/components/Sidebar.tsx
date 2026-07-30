@@ -11,7 +11,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open, onClose, onUpgradeClick }: SidebarProps) {
-  const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
+  const [isAgentPopoverOpen, setIsAgentPopoverOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState("E-1");
 
   const agents = [
@@ -67,13 +67,52 @@ export default function Sidebar({ open, onClose, onUpgradeClick }: SidebarProps)
                   <Sparkles className="w-4 h-4" />
                   <span className="text-sm">Showcase</span>
                 </button>
-                <button 
-                  onClick={() => setIsAgentModalOpen(true)}
-                  className="flex items-center gap-3 text-[#8F939A] hover:text-white transition-colors w-full text-left"
-                >
-                  <Sparkles className="w-4 h-4 text-[#67E8F9]" />
-                  <span className="text-sm">AI Agents ({selectedAgent})</span>
-                </button>
+
+                {/* Agent Selector Trigger inside Sidebar Nav */}
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsAgentPopoverOpen(!isAgentPopoverOpen)}
+                    className="flex items-center justify-between w-full gap-3 text-[#8F939A] hover:text-white transition-colors bg-white/[0.03] border border-white/[0.08] px-3 py-2 rounded-xl"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#67E8F9]" />
+                      <span className="text-sm text-white font-medium">{selectedAgent}</span>
+                    </div>
+                    <ChevronRight className={`w-4 h-4 transition-transform ${isAgentPopoverOpen ? "rotate-90" : ""}`} />
+                  </button>
+
+                  {/* Inline Popover Menu matching Image 1 layout */}
+                  {isAgentPopoverOpen && (
+                    <div className="absolute left-0 mt-2 w-full bg-[#09090B] border border-white/[0.1] rounded-2xl p-2 shadow-2xl backdrop-blur-2xl z-50 space-y-1.5">
+                      <div className="px-3 py-1.5 text-xs font-semibold text-white/50 border-b border-white/[0.06] mb-1">
+                        Select Agent
+                      </div>
+                      {agents.map((agent) => {
+                        const isSelected = selectedAgent === agent.id;
+                        return (
+                          <div
+                            key={agent.id}
+                            onClick={() => {
+                              setSelectedAgent(agent.id);
+                              setIsAgentPopoverOpen(false);
+                            }}
+                            className={`p-2.5 rounded-xl cursor-pointer transition-all flex items-center justify-between ${
+                              isSelected
+                                ? "bg-white/[0.08] border border-[#67E8F9]/40"
+                                : "hover:bg-white/[0.04]"
+                            }`}
+                          >
+                            <div>
+                              <h4 className="text-sm font-bold text-white">{agent.title}</h4>
+                              <p className="text-xs text-[#9CA3AF]">{agent.subtitle}</p>
+                            </div>
+                            {isSelected && <Check className="w-4 h-4 text-[#67E8F9]" />}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               </nav>
 
               <div className="flex-1 flex flex-col">
@@ -120,59 +159,6 @@ export default function Sidebar({ open, onClose, onUpgradeClick }: SidebarProps)
           </>
         )}
       </AnimatePresence>
-
-      {/* AI Agent Selector Modal */}
-      {isAgentModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            className="w-full max-w-lg bg-[#09090B] border border-white/[0.1] rounded-[32px] p-6 shadow-2xl backdrop-blur-2xl space-y-6"
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="text-[22px] font-bold text-white tracking-tight">Select Agent</h3>
-              <button
-                onClick={() => setIsAgentModalOpen(false)}
-                className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white hover:bg-white/[0.12] transition-all"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              {agents.map((agent) => {
-                const isSelected = selectedAgent === agent.id;
-                return (
-                  <div
-                    key={agent.id}
-                    onClick={() => {
-                      setSelectedAgent(agent.id);
-                      setIsAgentModalOpen(false);
-                    }}
-                    style={{ borderRadius: "22px" }}
-                    className={`p-5 cursor-pointer transition-all duration-300 flex items-center justify-between border ${
-                      isSelected
-                        ? "bg-[rgba(24,24,28,0.95)] border-[#67E8F9] shadow-[0_0_20px_rgba(103,232,249,0.15)]"
-                        : "bg-[rgba(24,24,28,0.6)] border-white/[0.06] hover:bg-[rgba(24,24,28,0.8)] hover:border-white/[0.12]"
-                    }`}
-                  >
-                    <div className="space-y-1">
-                      <h4 className="text-[18px] font-bold text-white">{agent.title}</h4>
-                      <p className="text-[15px] text-[#9CA3AF]">{agent.subtitle}</p>
-                    </div>
-                    {isSelected && (
-                      <div className="w-7 h-7 rounded-full bg-[#67E8F9]/15 flex items-center justify-center text-[#67E8F9]">
-                        <Check className="w-4 h-4" />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </motion.div>
-        </div>
-      )}
     </>
   );
 }
