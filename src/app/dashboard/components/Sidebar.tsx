@@ -3,7 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, LayoutGrid, Sparkles, ChevronDown, Coins } from "lucide-react";
-import Q3DCanvas from "../Q3DCanvas"; // Adjust path if your file structure differs
+import Q3DCanvas from "../../Q3DCanvas";
 
 interface SidebarProps {
   open: boolean;
