@@ -216,11 +216,11 @@ export default function DashboardPage() {
               {/* Perfectly Aligned E-1 Agent Selector Button with Green Accent */}
               <button
                 onClick={() => setIsAgentModalOpen(true)}
-                className="h-10 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12]"
+                className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12]"
               >
                 <Bot className="w-4 h-4 text-[#34F5A0]" />
-                <span className="font-medium tracking-wide">E-1</span>
-                <ChevronDown className="w-3 h-3 text-[#8F939A]" />
+                <span className="font-medium tracking-tight">E-1</span>
+                <ChevronDown className="w-3.5 h-3.5 text-[#8F939A]" />
               </button>
             </div>
 
