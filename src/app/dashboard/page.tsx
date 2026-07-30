@@ -132,27 +132,28 @@ export default function DashboardPage() {
         </div>
       </main>
 
-      {/* Select Agent Modal Sheet */}
+      {/* Select Agent Modal Sheet — High-end Compact Reference Style */}
       <AnimatePresence>
         {isAgentModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-4">
             <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
+              initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-lg bg-[#09090B] border border-white/[0.1] rounded-[32px] p-6 shadow-2xl backdrop-blur-2xl space-y-6"
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="w-full max-w-md bg-[#121215] border border-white/[0.08] rounded-[24px] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.7)] backdrop-blur-2xl space-y-4"
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-[22px] font-bold text-white tracking-tight">Select Agent</h3>
+              <div className="flex items-center justify-between pb-1">
+                <h3 className="text-base font-semibold text-white tracking-tight">Select Agent</h3>
                 <button
                   onClick={() => setIsAgentModalOpen(false)}
-                  className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white hover:bg-white/[0.12] transition-all"
+                  className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/70 hover:text-white hover:bg-white/[0.08] transition-all"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-2.5">
                 {agents.map((agent) => {
                   const isSelected = selectedAgent === agent.id;
                   return (
@@ -162,20 +163,19 @@ export default function DashboardPage() {
                         setSelectedAgent(agent.id);
                         setIsAgentModalOpen(false);
                       }}
-                      style={{ borderRadius: "22px" }}
-                      className={`p-5 cursor-pointer transition-all duration-300 flex items-center justify-between border ${
+                      className={`p-4 rounded-[18px] cursor-pointer transition-all duration-200 flex items-center justify-between border ${
                         isSelected
-                          ? "bg-[rgba(24,24,28,0.95)] border-[#67E8F9] shadow-[0_0_20px_rgba(103,232,249,0.15)]"
-                          : "bg-[rgba(24,24,28,0.6)] border-white/[0.06] hover:bg-[rgba(24,24,28,0.8)] hover:border-white/[0.12]"
+                          ? "bg-[rgba(26,26,32,0.9)] border-[#67E8F9]/50 shadow-[0_0_15px_rgba(103,232,249,0.08)]"
+                          : "bg-[rgba(18,18,22,0.6)] border-white/[0.05] hover:bg-[rgba(24,24,28,0.8)] hover:border-white/[0.1]"
                       }`}
                     >
-                      <div className="space-y-1">
-                        <h4 className="text-[18px] font-bold text-white">{agent.title}</h4>
-                        <p className="text-[15px] text-[#9CA3AF]">{agent.subtitle}</p>
+                      <div className="space-y-0.5">
+                        <h4 className="text-sm font-semibold text-white">{agent.title}</h4>
+                        <p className="text-xs text-[#8F939A] font-normal">{agent.subtitle}</p>
                       </div>
                       {isSelected && (
-                        <div className="w-7 h-7 rounded-full bg-[#67E8F9]/15 flex items-center justify-center text-[#67E8F9]">
-                          <Check className="w-4 h-4" />
+                        <div className="w-5 h-5 rounded-full bg-[#67E8F9]/15 flex items-center justify-center text-[#67E8F9]">
+                          <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                         </div>
                       )}
                     </div>
