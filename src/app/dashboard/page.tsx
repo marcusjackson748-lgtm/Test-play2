@@ -18,6 +18,7 @@ import {
   Bot,
   X,
   Check,
+  Lock,
 } from "lucide-react";
 
 const projectTypes = [
@@ -35,6 +36,10 @@ export default function DashboardPage() {
   // Agent Selector State & Data
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState("E-1");
+
+  // Privacy Settings Modal State & Data
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
+  const [selectedPrivacy, setSelectedPrivacy] = useState("public");
 
   const agents = [
     { id: "E-1", title: "E-1", subtitle: "Stable & thorough" },
@@ -115,7 +120,11 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
+              {/* Interactive Privacy Settings Button (Circled in image) */}
+              <button
+                onClick={() => setIsPrivacyModalOpen(true)}
+                className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]"
+              >
                 <Globe className="w-4 h-4 text-white/70" />
               </button>
               <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
@@ -132,7 +141,7 @@ export default function DashboardPage() {
         </div>
       </main>
 
-      {/* Select Agent Modal Sheet — High-end Compact Reference Style */}
+      {/* Select Agent Modal Sheet */}
       <AnimatePresence>
         {isAgentModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-4">
@@ -181,6 +190,93 @@ export default function DashboardPage() {
                     </div>
                   );
                 })}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Privacy Settings Modal Sheet */}
+      <AnimatePresence>
+        {isPrivacyModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-4">
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="w-full max-w-md bg-[#121215] border border-white/[0.08] rounded-[24px] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.7)] backdrop-blur-2xl space-y-4"
+            >
+              <div className="flex items-center justify-between pb-1">
+                <h3 className="text-base font-semibold text-white tracking-tight">Privacy Settings</h3>
+                <button
+                  onClick={() => setIsPrivacyModalOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/70 hover:text-white hover:bg-white/[0.08] transition-all"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="space-y-2.5">
+                {/* Public Option */}
+                <div
+                  onClick={() => {
+                    setSelectedPrivacy("public");
+                    setIsPrivacyModalOpen(false);
+                  }}
+                  className={`p-4 rounded-[18px] cursor-pointer transition-all duration-200 flex items-center justify-between border ${
+                    selectedPrivacy === "public"
+                      ? "bg-[rgba(26,26,32,0.9)] border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                      : "bg-[rgba(18,18,22,0.6)] border-white/[0.05] hover:bg-[rgba(24,24,28,0.8)] hover:border-white/[0.1]"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1">
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPrivacy === "public" ? "border-white" : "border-white/40"}`}>
+                        {selectedPrivacy === "public" && <div className="w-2 h-2 rounded-full bg-white" />}
+                      </div>
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-sm font-semibold text-white">Public</h4>
+                        <Globe className="w-3.5 h-3.5 text-[#8F939A]" />
+                      </div>
+                      <p className="text-xs text-[#8F939A] font-normal">Anyone can view and explore</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Private Option */}
+                <div
+                  onClick={() => {
+                    setSelectedPrivacy("private");
+                    setIsPrivacyModalOpen(false);
+                  }}
+                  className={`p-4 rounded-[18px] cursor-pointer transition-all duration-200 flex items-center justify-between border ${
+                    selectedPrivacy === "private"
+                      ? "bg-[rgba(26,26,32,0.9)] border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                      : "bg-[rgba(18,18,22,0.6)] border-white/[0.05] hover:bg-[rgba(24,24,28,0.8)] hover:border-white/[0.1]"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1">
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPrivacy === "private" ? "border-white" : "border-white/40"}`}>
+                        {selectedPrivacy === "private" && <div className="w-2 h-2 rounded-full bg-white" />}
+                      </div>
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-sm font-semibold text-white">Private</h4>
+                        <Lock className="w-3.5 h-3.5 text-[#8F939A]" />
+                      </div>
+                      <p className="text-xs text-[#8F939A] font-normal">Only visible to yourself, unless shared</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-medium text-[#F4D96B]">
+                    <Globe className="w-3 h-3" />
+                    <span>Standard</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
