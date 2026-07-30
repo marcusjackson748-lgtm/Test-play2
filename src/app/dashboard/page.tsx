@@ -116,7 +116,7 @@ export default function DashboardPage() {
           <textarea
             onFocus={() => setComposerFocused(true)}
             onBlur={() => setComposerFocused(false)}
-            placeholder="Build me a clone of netflix..."
+            placeholder="Build me a SaaS app for..."
             rows={3}
             className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
           />
@@ -213,10 +213,10 @@ export default function DashboardPage() {
                 <Paperclip className="w-4 h-4" />
               </button>
 
-              {/* Perfectly Aligned E-1 Agent Selector Button with Green Accent */}
+              {/* Perfectly Single-Line Aligned E-1 Agent Selector Button */}
               <button
                 onClick={() => setIsAgentModalOpen(true)}
-                className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12]"
+                className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12] whitespace-nowrap"
               >
                 <Bot className="w-4 h-4 text-[#34F5A0]" />
                 <span className="font-medium tracking-tight">E-1</span>
