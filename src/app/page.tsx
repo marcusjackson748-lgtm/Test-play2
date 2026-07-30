@@ -446,7 +446,7 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="bg-brandBg text-white antialiased font-sans overflow-x-hidden selection:bg-brandGreen selection:text-black min-h-screen relative">
+    <div className="w-full min-h-[100dvh] h-[100dvh] bg-brandBg text-white antialiased font-sans overflow-x-hidden selection:bg-brandGreen selection:text-black relative pt-[env(safe-area-inset-top)] pb-[max(16px,env(safe-area-inset-bottom))] px-[12px] md:px-[24px]">
       <CustomCursor />
       <div className="noise-bg" />
       <div className="radial-vignette" />
@@ -455,7 +455,7 @@ export default function LandingPage() {
       <ParticleCanvas />
 
       <header className="fixed top-0 left-0 w-full z-50 border-b border-brandBorder bg-brandBg/60 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="w-full max-w-[900px] md:max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-brandGreen/40 rounded-full px-2" aria-label="QuickStart.Ai Homepage">
             <div className="w-10 h-10 relative overflow-hidden flex items-center justify-center"><Q3DCanvas scale={0.85} className="w-10 h-10 absolute pointer-events-none" /></div>
             <span className="text-xl font-bold tracking-tight"><span className="wordmark-quickstart metal-shimmer">QuickStart</span><span className="wordmark-ai">.Ai</span></span>
@@ -472,16 +472,16 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <main className="relative z-10 pt-20">
+      <main className="relative z-10 pt-20 w-full max-w-[900px] min-w-[320px] mx-auto flex flex-col items-center justify-center">
         {SHOW_SUPABASE_CONFIG_WARNING && (
-          <section className="mx-auto mt-6 max-w-5xl px-6">
+          <section className="mx-auto mt-6 max-w-5xl px-6 w-full">
             <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
               Authentication is disabled because Supabase environment variables are not configured for this deployment.
               Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY, then redeploy.
             </div>
           </section>
         )}
-        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden pb-16">
+        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden pb-16 w-full">
           {/* 3D logo with oval spotlight backdrop */}
           <div
             className="relative mt-4 mb-20 flex items-center justify-center overflow-visible"
@@ -530,7 +530,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="features" className="px-6 py-24">
+        <section id="features" className="px-6 py-24 w-full">
           <div className="max-w-7xl mx-auto space-y-12">
             <Reveal className="max-w-3xl">
               <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brandGreen">What is QuickStart.Ai</p>
@@ -577,7 +577,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="pricing" className="px-6 py-24">
+        <section id="pricing" className="px-6 py-24 w-full">
           <div className="max-w-7xl mx-auto space-y-10">
             <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
@@ -632,7 +632,6 @@ export default function LandingPage() {
 
                       <div className="mt-8 flex-1">
                         <ul className="space-y-4 text-sm text-brandTextSec">
-                          {/* Placeholder pricing features only — replace these with final tier details once confirmed. */}
                           {tier.features.map((feature) => (
                             <li key={feature} className="flex items-start gap-3">
                               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brandGreen/10 text-brandGreen">
@@ -660,8 +659,8 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-brandBorder px-6 py-14">
-        <div className="max-w-7xl mx-auto flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+      <footer className="relative z-10 border-t border-brandBorder px-6 py-14 w-full">
+        <div className="max-w-[900px] md:max-w-7xl mx-auto flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
           <Reveal className="max-w-sm">
             <a href="#" className="inline-flex items-center gap-3 rounded-full focus:outline-none focus:ring-2 focus:ring-brandGreen/40" aria-label="QuickStart.Ai Homepage">
               <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden">
