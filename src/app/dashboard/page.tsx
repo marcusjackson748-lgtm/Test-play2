@@ -339,8 +339,8 @@ export default function DashboardPage() {
                     {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                   </button>
 
-                  {/* Refined Muted Green & Silver Send Arrow Button */}
-                  <button className="w-10 h-10 rounded-full bg-gradient-to-br from-[#8EF08A]/70 via-[#A3E5A0]/50 to-[#C0C0C8]/70 flex items-center justify-center hover:brightness-110 transition-all active:scale-[0.98] text-black shadow-[0_4px_16px_rgba(142,240,138,0.25)] border border-white/20">
+                  {/* Send Arrow Button updated to match reference green color */}
+                  <button className="w-10 h-10 rounded-full bg-[#10E885] flex items-center justify-center hover:bg-[#0ED478] transition-all active:scale-[0.98] text-black shadow-[0_4px_16px_rgba(16,232,133,0.3)]">
                     <ArrowUp className="w-4 h-4 stroke-[2.5]" />
                   </button>
                 </div>
