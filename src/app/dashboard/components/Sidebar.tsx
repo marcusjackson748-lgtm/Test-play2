@@ -3,7 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, LayoutGrid, Sparkles, ChevronDown, Coins } from "lucide-react";
-import Q3DCanvas from "../Q3DCanvas"; // Adjust import path if needed based on your folder structure
+import Q3DCanvas from "../Q3DCanvas"; // Adjust path if your file structure differs
 
 interface SidebarProps {
   open: boolean;
@@ -30,7 +30,7 @@ export default function Sidebar({ open, onClose, onUpgradeClick }: SidebarProps)
             transition={{ duration: 0.28, ease: "easeOut" }}
             className="fixed top-0 left-0 h-full w-[320px] bg-[rgba(10,10,12,0.95)] backdrop-blur-2xl border-r border-white/[0.08] z-50 flex flex-col p-5"
           >
-            {/* Header: Original 3D Logo & QuickStart.Ai Brand */}
+            {/* Header: 3D Canvas Logo & QuickStart.Ai Brand */}
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 flex items-center justify-center overflow-hidden">
