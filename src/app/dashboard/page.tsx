@@ -81,11 +81,11 @@ export default function DashboardPage() {
       <BillingModal open={billingOpen} onClose={() => setBillingOpen(false)} />
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 relative z-10">
-        <h1 className="text-[44px] md:text-[52px] font-semibold text-white text-center leading-tight max-w-2xl">
+        <h1 className="text-3xl md:text-[38px] font-semibold text-white text-center leading-tight max-w-2xl tracking-tight">
           What will you build today?
         </h1>
 
-        <div className="flex items-center gap-3 mt-8 overflow-x-auto max-w-full px-2 pb-1">
+        <div className="flex items-center gap-3 mt-6 overflow-x-auto max-w-full px-2 pb-1">
           {projectTypes.map((type) => {
             const Icon = type.icon;
             const active = activeType === type.id;
@@ -107,7 +107,7 @@ export default function DashboardPage() {
         </div>
 
         <div
-          className={`w-full md:w-[760px] mt-10 rounded-[28px] bg-[rgba(22,22,26,0.72)] backdrop-blur-2xl border p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-all duration-300 ${
+          className={`w-full md:w-[760px] mt-8 rounded-[28px] bg-[rgba(22,22,26,0.72)] backdrop-blur-2xl border p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-all duration-300 ${
             composerFocused
               ? "border-white/[0.2] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_20px_60px_rgba(0,0,0,0.35)]"
               : "border-white/[0.08] hover:border-white/[0.14]"
@@ -116,7 +116,7 @@ export default function DashboardPage() {
           <textarea
             onFocus={() => setComposerFocused(true)}
             onBlur={() => setComposerFocused(false)}
-            placeholder="Build me a SaaS app for..."
+            placeholder="Build me a clone of netflix..."
             rows={3}
             className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
           />
@@ -213,14 +213,14 @@ export default function DashboardPage() {
                 <Paperclip className="w-4 h-4" />
               </button>
 
-              {/* Interactive E-1 Agent Selector Button (Green Accent Maintained) */}
+              {/* Perfectly Aligned E-1 Agent Selector Button with Green Accent */}
               <button
                 onClick={() => setIsAgentModalOpen(true)}
-                className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12]"
+                className="h-10 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12]"
               >
                 <Bot className="w-4 h-4 text-[#34F5A0]" />
-                <span className="font-medium">E-1</span>
-                <ChevronDown className="w-3.5 h-3.5 text-[#8F939A]" />
+                <span className="font-medium tracking-wide">E-1</span>
+                <ChevronDown className="w-3 h-3 text-[#8F939A]" />
               </button>
             </div>
 
