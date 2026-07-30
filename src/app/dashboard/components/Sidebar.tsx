@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, LayoutGrid, Sparkles, ChevronDown, Coins } from "lucide-react";
+import Q3DCanvas from "../Q3DCanvas"; // Adjust import path if needed based on your folder structure
 
 interface SidebarProps {
   open: boolean;
@@ -29,24 +30,14 @@ export default function Sidebar({ open, onClose, onUpgradeClick }: SidebarProps)
             transition={{ duration: 0.28, ease: "easeOut" }}
             className="fixed top-0 left-0 h-full w-[320px] bg-[rgba(10,10,12,0.95)] backdrop-blur-2xl border-r border-white/[0.08] z-50 flex flex-col p-5"
           >
-            {/* Header: Apple Silver + AI Green Branding */}
+            {/* Header: Original 3D Logo & QuickStart.Ai Brand */}
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-2.5">
-                <div 
-                  className="w-8 h-8 rounded-[10px] flex items-center justify-center shadow-lg border border-white/[0.15]"
-                  style={{
-                    background: "linear-gradient(135deg, #E2E8F0 0%, #94A3B8 100%)",
-                  }}
-                >
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#34F5A0] shadow-[0_0_10px_#34F5A0]" />
+                <div className="w-9 h-9 flex items-center justify-center overflow-hidden">
+                  <Q3DCanvas scale={0.65} />
                 </div>
-                <span 
-                  className="text-lg font-bold tracking-tight bg-clip-text text-transparent"
-                  style={{
-                    backgroundImage: "linear-gradient(180deg, #FFFFFF 0%, #94A3B8 100%)",
-                  }}
-                >
-                  QuickStart<span className="text-[#34F5A0] drop-shadow-[0_0_8px_rgba(52,245,160,0.4)]">.Ai</span>
+                <span className="text-lg font-bold tracking-tight text-white">
+                  QuickStart<span className="text-[#34F5A0]">.Ai</span>
                 </span>
               </div>
 
