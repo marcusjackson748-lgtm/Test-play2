@@ -81,12 +81,11 @@ export default function DashboardPage() {
       <BillingModal open={billingOpen} onClose={() => setBillingOpen(false)} />
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 relative z-10">
-        {/* Exact heading size matching reference image */}
-        <h1 className="text-[28px] sm:text-[36px] font-medium text-white text-center leading-tight max-w-2xl tracking-tight">
+        <h1 className="text-3xl md:text-[38px] font-semibold text-white text-center leading-tight max-w-2xl tracking-tight mb-2">
           What will you build today?
         </h1>
 
-        <div className="flex items-center gap-3 mt-6 overflow-x-auto max-w-full px-2 pb-1">
+        <div className="flex items-center gap-3 mt-6 mb-8 overflow-x-auto max-w-full px-2 pb-1">
           {projectTypes.map((type) => {
             const Icon = type.icon;
             const active = activeType === type.id;
@@ -107,143 +106,149 @@ export default function DashboardPage() {
           })}
         </div>
 
-        <div
-          className={`w-full md:w-[760px] mt-6 rounded-[28px] bg-[rgba(22,22,26,0.72)] backdrop-blur-2xl border p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-all duration-300 ${
-            composerFocused
-              ? "border-white/[0.2] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_20px_60px_rgba(0,0,0,0.35)]"
-              : "border-white/[0.08] hover:border-white/[0.14]"
-          }`}
-        >
-          <textarea
-            onFocus={() => setComposerFocused(true)}
-            onBlur={() => setComposerFocused(false)}
-            placeholder="Build me a dashboard for..."
-            rows={3}
-            className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
-          />
+        {/* Ambient atmospheric background bloom beneath container */}
+        <div className="relative w-full md:w-[760px]">
+          <div className="absolute -inset-2 bg-white/[0.03] rounded-[32px] blur-xl pointer-events-none transition-all duration-500" />
 
-          <div className="flex items-center justify-between mt-4 relative">
-            <div className="flex items-center gap-2 relative">
-              {/* Hidden File Inputs */}
-              <input
-                type="file"
-                ref={photoLibraryInputRef}
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  console.log(e.target.files);
-                  setIsUploadPopoverOpen(false);
-                }}
-              />
-              <input
-                type="file"
-                ref={cameraInputRef}
-                accept="image/*"
-                capture="environment"
-                className="hidden"
-                onChange={(e) => {
-                  console.log(e.target.files);
-                  setIsUploadPopoverOpen(false);
-                }}
-              />
-              <input
-                type="file"
-                ref={chooseFilesInputRef}
-                multiple
-                className="hidden"
-                onChange={(e) => {
-                  console.log(e.target.files);
-                  setIsUploadPopoverOpen(false);
-                }}
+          {/* Animated White Edge Illumination Container */}
+          <div className="relative rounded-[24px] p-[1px] overflow-hidden group">
+            {/* Rotating or pulsing perimeter energy line */}
+            <div className="absolute inset-0 rounded-[24px] pointer-events-none animate-border-glow opacity-75" />
+
+            {/* Inner Glass Box */}
+            <div className="relative rounded-[23px] bg-gradient-to-b from-[#1A1A1F] to-[#151518] backdrop-blur-2xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.5)] z-10">
+              <textarea
+                onFocus={() => setComposerFocused(true)}
+                onBlur={() => setComposerFocused(false)}
+                placeholder="Build me a clone of netflix..."
+                rows={3}
+                className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
               />
 
-              {/* Upload Popover Menu */}
-              <AnimatePresence>
-                {isUploadPopoverOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="absolute left-0 bottom-12 z-50 w-64 bg-[#121215] border border-white/[0.08] rounded-[22px] p-2 shadow-[0_16px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl space-y-1"
+              <div className="flex items-center justify-between mt-4 relative">
+                <div className="flex items-center gap-2 relative">
+                  {/* Hidden File Inputs */}
+                  <input
+                    type="file"
+                    ref={photoLibraryInputRef}
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      console.log(e.target.files);
+                      setIsUploadPopoverOpen(false);
+                    }}
+                  />
+                  <input
+                    type="file"
+                    ref={cameraInputRef}
+                    accept="image/*"
+                    capture="environment"
+                    className="hidden"
+                    onChange={(e) => {
+                      console.log(e.target.files);
+                      setIsUploadPopoverOpen(false);
+                    }}
+                  />
+                  <input
+                    type="file"
+                    ref={chooseFilesInputRef}
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      console.log(e.target.files);
+                      setIsUploadPopoverOpen(false);
+                    }}
+                  />
+
+                  {/* Upload Popover Menu */}
+                  <AnimatePresence>
+                    {isUploadPopoverOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
+                        className="absolute left-0 bottom-12 z-50 w-64 bg-[#121215] border border-white/[0.08] rounded-[22px] p-2 shadow-[0_16px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl space-y-1"
+                      >
+                        <button
+                          onClick={() => photoLibraryInputRef.current?.click()}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                        >
+                          <span className="font-medium">Photo Library</span>
+                          <ImageIcon className="w-4 h-4 text-[#8F939A]" />
+                        </button>
+                        <button
+                          onClick={() => cameraInputRef.current?.click()}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                        >
+                          <span className="font-medium">Take Photo or Video</span>
+                          <Camera className="w-4 h-4 text-[#8F939A]" />
+                        </button>
+                        <button
+                          onClick={() => chooseFilesInputRef.current?.click()}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                        >
+                          <span className="font-medium">Choose Files</span>
+                          <FolderOpen className="w-4 h-4 text-[#8F939A]" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            alert("Google Drive integration triggered");
+                            setIsUploadPopoverOpen(false);
+                          }}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
+                        >
+                          <span className="font-medium">Google Drive</span>
+                          <Triangle className="w-4 h-4 text-[#8F939A]" />
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Attachment Clip Button */}
+                  <button
+                    onClick={() => setIsUploadPopoverOpen(!isUploadPopoverOpen)}
+                    className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all active:scale-[0.98] ${
+                      isUploadPopoverOpen
+                        ? "bg-white/[0.08] border-white/[0.2] text-white"
+                        : "bg-white/[0.03] border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
+                    }`}
                   >
-                    <button
-                      onClick={() => photoLibraryInputRef.current?.click()}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                    >
-                      <span className="font-medium">Photo Library</span>
-                      <ImageIcon className="w-4 h-4 text-[#8F939A]" />
-                    </button>
-                    <button
-                      onClick={() => cameraInputRef.current?.click()}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                    >
-                      <span className="font-medium">Take Photo or Video</span>
-                      <Camera className="w-4 h-4 text-[#8F939A]" />
-                    </button>
-                    <button
-                      onClick={() => chooseFilesInputRef.current?.click()}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                    >
-                      <span className="font-medium">Choose Files</span>
-                      <FolderOpen className="w-4 h-4 text-[#8F939A]" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        alert("Google Drive integration triggered");
-                        setIsUploadPopoverOpen(false);
-                      }}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                    >
-                      <span className="font-medium">Google Drive</span>
-                      <Triangle className="w-4 h-4 text-[#8F939A]" />
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <Paperclip className="w-4 h-4" />
+                  </button>
 
-              {/* Attachment Clip Button */}
-              <button
-                onClick={() => setIsUploadPopoverOpen(!isUploadPopoverOpen)}
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all active:scale-[0.98] ${
-                  isUploadPopoverOpen
-                    ? "bg-white/[0.08] border-white/[0.2] text-white"
-                    : "bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
-                }`}
-              >
-                <Paperclip className="w-4 h-4" />
-              </button>
+                  {/* E-1 Agent Selector Button with Preserved Green Accent */}
+                  <button
+                    onClick={() => setIsAgentModalOpen(true)}
+                    className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-[#3A3A42] hover:border-white/[0.12] whitespace-nowrap"
+                  >
+                    <Bot className="w-4 h-4 text-[#34F5A0]" />
+                    <span className="font-medium tracking-tight">E-1</span>
+                    <ChevronDown className="w-3.5 h-3.5 text-[#8F939A]" />
+                  </button>
+                </div>
 
-              {/* E-1 Agent Selector Button with Preserved Green Accent */}
-              <button
-                onClick={() => setIsAgentModalOpen(true)}
-                className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12] whitespace-nowrap"
-              >
-                <Bot className="w-4 h-4 text-[#34F5A0]" />
-                <span className="font-medium tracking-tight">E-1</span>
-                <ChevronDown className="w-3.5 h-3.5 text-[#8F939A]" />
-              </button>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsPrivacyModalOpen(true)}
-                className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
-              >
-                <Globe className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setIsAdvancedModalOpen(true)}
-                className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
-              >
-                <Settings className="w-4 h-4" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white">
-                <Mic className="w-4 h-4" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-white/[0.08] border border-white/[0.15] flex items-center justify-center hover:bg-white/[0.15] hover:border-white/[0.25] transition-all active:scale-[0.98] text-white">
-                <ArrowUp className="w-4 h-4" />
-              </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsPrivacyModalOpen(true)}
+                    className="w-10 h-10 rounded-full bg-white/[0.03] border border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
+                  >
+                    <Globe className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setIsAdvancedModalOpen(true)}
+                    className="w-10 h-10 rounded-full bg-white/[0.03] border border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
+                  >
+                    <Settings className="w-4 h-4" />
+                  </button>
+                  <button className="w-10 h-10 rounded-full bg-white/[0.03] border border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white">
+                    <Mic className="w-4 h-4" />
+                  </button>
+                  <button className="w-10 h-10 rounded-full bg-white/[0.08] border border-white/[0.15] flex items-center justify-center hover:bg-white/[0.15] hover:border-white/[0.25] transition-all active:scale-[0.98] text-white">
+                    <ArrowUp className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -486,6 +491,27 @@ export default function DashboardPage() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Keyframe animation for the animated white edge illumination */}
+      <style jsx>{`
+        @keyframes borderGlowPulse {
+          0% {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(232,232,232,0.4) 40%, rgba(255,255,255,0.85) 75%, rgba(255,255,255,0.1) 100%);
+            box-shadow: inset 0 0 12px rgba(255,255,255,0.15), 0 0 12px rgba(255,255,255,0.25);
+          }
+          50% {
+            background: linear-gradient(315deg, rgba(255,255,255,0.05) 0%, rgba(232,232,232,0.4) 40%, rgba(255,255,255,0.85) 75%, rgba(255,255,255,0.1) 100%);
+            box-shadow: inset 0 0 16px rgba(255,255,255,0.25), 0 0 18px rgba(255,255,255,0.4);
+          }
+          100% {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(232,232,232,0.4) 40%, rgba(255,255,255,0.85) 75%, rgba(255,255,255,0.1) 100%);
+            box-shadow: inset 0 0 12px rgba(255,255,255,0.15), 0 0 12px rgba(255,255,255,0.25);
+          }
+        }
+        .animate-border-glow {
+          animation: borderGlowPulse 4s ease-in-out infinite;
+        }
+      `}</style>
     </>
   );
 }
