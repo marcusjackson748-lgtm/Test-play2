@@ -19,6 +19,10 @@ import {
   X,
   Check,
   Lock,
+  Sparkles,
+  Cpu,
+  Github,
+  ChevronRight,
 } from "lucide-react";
 
 const projectTypes = [
@@ -40,6 +44,11 @@ export default function DashboardPage() {
   // Privacy Settings Modal State & Data
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [selectedPrivacy, setSelectedPrivacy] = useState("public");
+
+  // Advanced Controls Modal State & Data
+  const [isAdvancedModalOpen, setIsAdvancedModalOpen] = useState(false);
+  const [maxxEnabled, setMaxxEnabled] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("Auto");
 
   const agents = [
     { id: "E-1", title: "E-1", subtitle: "Stable & thorough" },
@@ -97,7 +106,7 @@ export default function DashboardPage() {
           <textarea
             onFocus={() => setComposerFocused(true)}
             onBlur={() => setComposerFocused(false)}
-            placeholder="Build me an e-commerce platform with…"
+            placeholder="Build me a CRM system with…"
             rows={3}
             className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
           />
@@ -120,14 +129,18 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Interactive Privacy Settings Button (Circled in image) */}
+              {/* Privacy Settings Button */}
               <button
                 onClick={() => setIsPrivacyModalOpen(true)}
                 className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]"
               >
                 <Globe className="w-4 h-4 text-white/70" />
               </button>
-              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
+              {/* Advanced Controls Button (Circled in image) */}
+              <button
+                onClick={() => setIsAdvancedModalOpen(true)}
+                className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]"
+              >
                 <Settings className="w-4 h-4 text-white/70" />
               </button>
               <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
@@ -218,7 +231,6 @@ export default function DashboardPage() {
               </div>
 
               <div className="space-y-2.5">
-                {/* Public Option */}
                 <div
                   onClick={() => {
                     setSelectedPrivacy("public");
@@ -246,7 +258,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Private Option */}
                 <div
                   onClick={() => {
                     setSelectedPrivacy("private");
@@ -275,6 +286,109 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-medium text-[#F4D96B]">
                     <Globe className="w-3 h-3" />
                     <span>Standard</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Advanced Controls Modal Sheet */}
+      <AnimatePresence>
+        {isAdvancedModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-4">
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="w-full max-w-md bg-[#121215] border border-white/[0.08] rounded-[24px] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.7)] backdrop-blur-2xl space-y-5"
+            >
+              <div className="flex items-center justify-between pb-1">
+                <h3 className="text-base font-semibold text-white tracking-tight">Advanced Controls</h3>
+                <button
+                  onClick={() => setIsAdvancedModalOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/70 hover:text-white hover:bg-white/[0.08] transition-all"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {/* Maxx Toggle Row */}
+                <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-white/[0.05] flex items-center justify-center text-white">
+                      <Bot className="w-4 h-4" />
+                    </div>
+                    <span className="text-sm font-semibold text-white flex items-center gap-1">
+                      Maxx <Sparkles className="w-3.5 h-3.5 text-[#34F5A0]" />
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setMaxxEnabled(!maxxEnabled)}
+                    className={`w-11 h-6 rounded-full transition-colors relative p-0.5 ${maxxEnabled ? "bg-[#34F5A0]" : "bg-white/20"}`}
+                  >
+                    <div className={`w-5 h-5 rounded-full bg-black transition-transform ${maxxEnabled ? "translate-x-5" : "translate-x-0"}`} />
+                  </button>
+                </div>
+
+                {/* Select Model Section */}
+                <div className="space-y-1.5">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A] px-1">
+                    Select Model
+                  </span>
+                  <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] hover:border-white/[0.1] cursor-pointer flex items-center justify-between transition-all">
+                    <div className="flex items-center gap-3">
+                      <Cpu className="w-4 h-4 text-white/70" />
+                      <span className="text-sm font-semibold text-white">{selectedModel}</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[#8F939A]" />
+                  </div>
+                </div>
+
+                {/* Select MCP Tools Section */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between px-1">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A]">
+                      Select MCP Tools
+                    </span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F4D96B] text-black">
+                      New
+                    </span>
+                  </div>
+                  <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] hover:border-white/[0.1] cursor-pointer flex items-center justify-between transition-all">
+                    <div className="flex items-center gap-3">
+                      <Paperclip className="w-4 h-4 text-white/70" />
+                      <span className="text-sm font-semibold text-white">Select MCP Tools</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[#8F939A]" />
+                  </div>
+                </div>
+
+                {/* GitHub Integration Section */}
+                <div className="space-y-1.5">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A] px-1">
+                    GitHub
+                  </span>
+                  <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] hover:border-white/[0.1] cursor-pointer flex items-center justify-between transition-all">
+                    <div className="flex items-center gap-3">
+                      <Github className="w-4 h-4 text-white/70" />
+                      <span className="text-sm font-semibold text-white">Connect to GitHub</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[#8F939A]" />
+                  </div>
+                </div>
+
+                {/* Select Template Section */}
+                <div className="space-y-1.5">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#8F939A] px-1">
+                    Select Template
+                  </span>
+                  <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] hover:border-white/[0.1] cursor-pointer flex items-center justify-between transition-all">
+                    <span className="text-sm font-semibold text-white">Full Stack Template</span>
+                    <ChevronRight className="w-4 h-4 text-[#8F939A]" />
                   </div>
                 </div>
               </div>
