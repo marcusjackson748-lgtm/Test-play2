@@ -142,7 +142,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <>
+    <div className="w-full min-h-[100dvh] h-[100dvh] flex flex-col justify-between overflow-x-hidden relative pt-[env(safe-area-inset-top)] pb-[max(16px,env(safe-area-inset-bottom))] px-[12px] md:px-[24px] py-[32px]">
       <TopBar
         onMenuClick={() => setSidebarOpen(true)}
         onUpgradeClick={() => setBillingOpen(true)}
@@ -154,7 +154,7 @@ export default function DashboardPage() {
       />
       <BillingModal open={billingOpen} onClose={() => setBillingOpen(false)} />
 
-      <main className="flex-1 flex flex-col items-center justify-center px-6 relative z-10">
+      <main className="flex-1 flex flex-col items-center justify-center relative z-10 w-full max-w-[900px] min-w-[320px] mx-auto">
         <h1 className="text-3xl md:text-[38px] font-semibold text-white text-center leading-tight max-w-2xl tracking-tight mb-2">
           What will you build today?
         </h1>
@@ -181,7 +181,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Ambient atmospheric background bloom beneath container */}
-        <div className="relative w-full md:w-[760px]" ref={popoverRef}>
+        <div className="relative w-full max-w-[900px]" ref={popoverRef}>
           <div className="absolute -inset-2 bg-white/[0.02] rounded-[32px] blur-xl pointer-events-none transition-all duration-500" />
 
           {/* Floating Dropdown Overlay Menu - Unclipped & Positioned Above Chat Box */}
@@ -239,14 +239,14 @@ export default function DashboardPage() {
           </AnimatePresence>
 
           {/* Premium AI Chat Input Container with Exact Graphite Background & Continuous Orbiting Highlight */}
-          <div className="relative rounded-[24px] p-[1px] overflow-visible group shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
+          <div className="relative w-full rounded-[22px] md:rounded-[24px] p-[1px] overflow-visible group shadow-[0_12px_40px_rgba(0,0,0,0.35)] min-h-[120px] md:min-h-[140px]">
             {/* Continuously moving 360-degree white highlight orbiter */}
-            <div className="absolute inset-0 rounded-[24px] pointer-events-none overflow-hidden z-25">
+            <div className="absolute inset-0 rounded-[22px] md:rounded-[24px] pointer-events-none overflow-hidden z-25">
               <div className="absolute -inset-[150%] animate-orbit-border bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,transparent_310deg,rgba(232,232,232,0.4)_340deg,#FFFFFF_355deg,transparent_360deg)]" />
             </div>
 
             {/* Inner Graphite Glass Box matching #26252A */}
-            <div className="relative rounded-[23px] bg-[#26252A] border border-[rgba(255,255,255,0.08)] backdrop-blur-2xl p-5 z-30 overflow-hidden">
+            <div className="relative w-full h-full rounded-[21px] md:rounded-[23px] bg-[#26252A] border border-[rgba(255,255,255,0.08)] backdrop-blur-2xl p-5 z-30 overflow-hidden flex flex-col justify-between">
               <textarea
                 onFocus={() => setComposerFocused(true)}
                 onBlur={() => setComposerFocused(false)}
@@ -602,6 +602,6 @@ export default function DashboardPage() {
           animation: borderOrbit 2s linear infinite;
         }
       `}</style>
-    </>
+    </div>
   );
 }
