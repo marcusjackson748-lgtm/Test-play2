@@ -108,15 +108,17 @@ export default function DashboardPage() {
 
         {/* Ambient atmospheric background bloom beneath container */}
         <div className="relative w-full md:w-[760px]">
-          <div className="absolute -inset-2 bg-white/[0.03] rounded-[32px] blur-xl pointer-events-none transition-all duration-500" />
+          <div className="absolute -inset-2 bg-white/[0.02] rounded-[32px] blur-xl pointer-events-none transition-all duration-500" />
 
-          {/* Animated White Edge Illumination Container */}
-          <div className="relative rounded-[24px] p-[1px] overflow-hidden group">
-            {/* Rotating or pulsing perimeter energy line */}
-            <div className="absolute inset-0 rounded-[24px] pointer-events-none animate-border-glow opacity-75" />
+          {/* Premium AI Chat Input Container with Continuous 360-Degree Orbiting Highlight */}
+          <div className="relative rounded-[24px] p-[1px] overflow-hidden group shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+            {/* Continuously moving 360-degree white highlight orbiter */}
+            <div className="absolute inset-0 rounded-[24px] pointer-events-none overflow-hidden z-20">
+              <div className="absolute -inset-[150%] animate-orbit-border bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,transparent_310deg,rgba(232,232,232,0.4)_340deg,#FFFFFF_355deg,transparent_360deg)]" />
+            </div>
 
             {/* Inner Glass Box */}
-            <div className="relative rounded-[23px] bg-gradient-to-b from-[#1A1A1F] to-[#151518] backdrop-blur-2xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.5)] z-10">
+            <div className="relative rounded-[23px] bg-[#161618] border border-[#3A3A42] backdrop-blur-2xl p-5 z-30">
               <textarea
                 onFocus={() => setComposerFocused(true)}
                 onBlur={() => setComposerFocused(false)}
@@ -492,24 +494,18 @@ export default function DashboardPage() {
         )}
       </AnimatePresence>
 
-      {/* Keyframe animation for the animated white edge illumination */}
+      {/* Keyframe animation for continuous 360-degree border orbiting highlight */}
       <style jsx>{`
-        @keyframes borderGlowPulse {
+        @keyframes borderOrbit {
           0% {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(232,232,232,0.4) 40%, rgba(255,255,255,0.85) 75%, rgba(255,255,255,0.1) 100%);
-            box-shadow: inset 0 0 12px rgba(255,255,255,0.15), 0 0 12px rgba(255,255,255,0.25);
-          }
-          50% {
-            background: linear-gradient(315deg, rgba(255,255,255,0.05) 0%, rgba(232,232,232,0.4) 40%, rgba(255,255,255,0.85) 75%, rgba(255,255,255,0.1) 100%);
-            box-shadow: inset 0 0 16px rgba(255,255,255,0.25), 0 0 18px rgba(255,255,255,0.4);
+            transform: rotate(0deg);
           }
           100% {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(232,232,232,0.4) 40%, rgba(255,255,255,0.85) 75%, rgba(255,255,255,0.1) 100%);
-            box-shadow: inset 0 0 12px rgba(255,255,255,0.15), 0 0 12px rgba(255,255,255,0.25);
+            transform: rotate(360deg);
           }
         }
-        .animate-border-glow {
-          animation: borderGlowPulse 4s ease-in-out infinite;
+        .animate-orbit-border {
+          animation: borderOrbit 2s linear infinite;
         }
       `}</style>
     </>
