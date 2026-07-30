@@ -11,6 +11,7 @@ import {
   Globe,
   Settings,
   Mic,
+  MicOff,
   ArrowUp,
   Smartphone,
   MonitorSmartphone,
@@ -61,6 +62,12 @@ export default function DashboardPage() {
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const chooseFilesInputRef = useRef<HTMLInputElement>(null);
 
+  // Voice Recording State & Refs
+  const [isRecording, setIsRecording] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+
   // Close popover on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,6 +82,61 @@ export default function DashboardPage() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isUploadPopoverOpen]);
+
+  // Handle Voice Recording Logic using Web MediaRecorder API & SpeechRecognition if available
+  const toggleRecording = async () => {
+    if (isRecording) {
+      // Stop Recording
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        mediaRecorderRef.current.stop();
+      }
+      setIsRecording(false);
+    } else {
+      // Start Recording
+      audioChunksRef.current = [];
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            audioChunksRef.current.push(event.data);
+          }
+        };
+
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          console.log("Audio recording saved:", audioUrl);
+          // Stop all audio tracks on the stream
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        setIsRecording(true);
+
+        // Optional: browser SpeechRecognition integration for live transcript transcription if supported
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+        if (SpeechRecognition) {
+          const recognition = new SpeechRecognition();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.onresult = (event: any) => {
+            let currentTranscript = "";
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+              currentTranscript += event.results[i][0].transcript;
+            }
+            setTranscript(currentTranscript);
+          };
+          recognition.start();
+        }
+      } catch (error) {
+        console.error("Microphone access denied or not supported:", error);
+        alert("Microphone permission is required to record voice notes.");
+      }
+    }
+  };
 
   const agents = [
     { id: "E-1", title: "E-1", subtitle: "Stable & thorough" },
@@ -194,6 +256,8 @@ export default function DashboardPage() {
                 onBlur={() => setComposerFocused(false)}
                 placeholder="Build me a clone of netflix..."
                 rows={3}
+                value={transcript}
+                onChange={(e) => setTranscript(e.target.value)}
                 className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
               />
 
@@ -265,11 +329,23 @@ export default function DashboardPage() {
                   >
                     <Settings className="w-4 h-4" />
                   </button>
-                  <button className="w-10 h-10 rounded-full bg-white/[0.03] border border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white">
-                    <Mic className="w-4 h-4" />
+
+                  {/* Interactive Voice Recording Button */}
+                  <button
+                    onClick={toggleRecording}
+                    title={isRecording ? "Stop Recording" : "Start Recording"}
+                    className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all active:scale-[0.98] ${
+                      isRecording
+                        ? "bg-red-500/20 border-red-500 text-red-400 animate-pulse shadow-[0_0_12px_rgba(239,68,68,0.4)]"
+                        : "bg-white/[0.03] border-[#3A3A42] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
+                    }`}
+                  >
+                    {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                   </button>
-                  <button className="w-10 h-10 rounded-full bg-white/[0.08] border border-white/[0.15] flex items-center justify-center hover:bg-white/[0.15] hover:border-white/[0.25] transition-all active:scale-[0.98] text-white">
-                    <ArrowUp className="w-4 h-4" />
+
+                  {/* Exact Blue Send Arrow Button matching reference */}
+                  <button className="w-10 h-10 rounded-full bg-[#00A8FF] flex items-center justify-center hover:bg-[#0092E6] transition-all active:scale-[0.98] text-white shadow-[0_4px_16px_rgba(0,168,255,0.35)]">
+                    <ArrowUp className="w-4 h-4 stroke-[2.5]" />
                   </button>
                 </div>
               </div>
