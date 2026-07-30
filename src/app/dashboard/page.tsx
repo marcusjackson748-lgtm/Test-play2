@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import TopBar from "./components/TopBar";
 import Sidebar from "./components/Sidebar";
 import BillingModal from "./components/billing/BillingModal";
@@ -56,9 +56,25 @@ export default function DashboardPage() {
 
   // File Upload Popover & Hidden Inputs State
   const [isUploadPopoverOpen, setIsUploadPopoverOpen] = useState(false);
+  const popoverRef = useRef<HTMLDivElement>(null);
   const photoLibraryInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const chooseFilesInputRef = useRef<HTMLInputElement>(null);
+
+  // Close popover on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
+        setIsUploadPopoverOpen(false);
+      }
+    };
+    if (isUploadPopoverOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isUploadPopoverOpen]);
 
   const agents = [
     { id: "E-1", title: "E-1", subtitle: "Stable & thorough" },
@@ -107,18 +123,72 @@ export default function DashboardPage() {
         </div>
 
         {/* Ambient atmospheric background bloom beneath container */}
-        <div className="relative w-full md:w-[760px]">
+        <div className="relative w-full md:w-[760px]" ref={popoverRef}>
           <div className="absolute -inset-2 bg-white/[0.02] rounded-[32px] blur-xl pointer-events-none transition-all duration-500" />
 
+          {/* Floating Dropdown Overlay Menu - Unclipped & Positioned Above Chat Box */}
+          <AnimatePresence>
+            {isUploadPopoverOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 12, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="absolute left-0 bottom-full mb-3 z-[1000] w-72 bg-[#141416] border border-[#3A3A42] rounded-[20px] p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl space-y-1.5"
+              >
+                <button
+                  onClick={() => {
+                    photoLibraryInputRef.current?.click();
+                    setIsUploadPopoverOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left group"
+                >
+                  <span className="font-medium">Photo Library</span>
+                  <ImageIcon className="w-4 h-4 text-[#8F939A] group-hover:text-white transition-colors" />
+                </button>
+                <button
+                  onClick={() => {
+                    cameraInputRef.current?.click();
+                    setIsUploadPopoverOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left group"
+                >
+                  <span className="font-medium">Take Photo or Video</span>
+                  <Camera className="w-4 h-4 text-[#8F939A] group-hover:text-white transition-colors" />
+                </button>
+                <button
+                  onClick={() => {
+                    chooseFilesInputRef.current?.click();
+                    setIsUploadPopoverOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left group"
+                >
+                  <span className="font-medium">Choose Files</span>
+                  <FolderOpen className="w-4 h-4 text-[#8F939A] group-hover:text-white transition-colors" />
+                </button>
+                <button
+                  onClick={() => {
+                    alert("Google Drive integration triggered");
+                    setIsUploadPopoverOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left group"
+                >
+                  <span className="font-medium">Google Drive</span>
+                  <Triangle className="w-4 h-4 text-[#8F939A] group-hover:text-white transition-colors" />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Premium AI Chat Input Container with Continuous 360-Degree Orbiting Highlight */}
-          <div className="relative rounded-[24px] p-[1px] overflow-hidden group shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+          <div className="relative rounded-[24px] p-[1px] overflow-visible group shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
             {/* Continuously moving 360-degree white highlight orbiter */}
             <div className="absolute inset-0 rounded-[24px] pointer-events-none overflow-hidden z-20">
               <div className="absolute -inset-[150%] animate-orbit-border bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,transparent_310deg,rgba(232,232,232,0.4)_340deg,#FFFFFF_355deg,transparent_360deg)]" />
             </div>
 
             {/* Inner Glass Box */}
-            <div className="relative rounded-[23px] bg-[#161618] border border-[#3A3A42] backdrop-blur-2xl p-5 z-30">
+            <div className="relative rounded-[23px] bg-[#161618] border border-[#3A3A42] backdrop-blur-2xl p-5 z-30 overflow-hidden">
               <textarea
                 onFocus={() => setComposerFocused(true)}
                 onBlur={() => setComposerFocused(false)}
@@ -137,7 +207,6 @@ export default function DashboardPage() {
                     className="hidden"
                     onChange={(e) => {
                       console.log(e.target.files);
-                      setIsUploadPopoverOpen(false);
                     }}
                   />
                   <input
@@ -148,7 +217,6 @@ export default function DashboardPage() {
                     className="hidden"
                     onChange={(e) => {
                       console.log(e.target.files);
-                      setIsUploadPopoverOpen(false);
                     }}
                   />
                   <input
@@ -158,54 +226,8 @@ export default function DashboardPage() {
                     className="hidden"
                     onChange={(e) => {
                       console.log(e.target.files);
-                      setIsUploadPopoverOpen(false);
                     }}
                   />
-
-                  {/* Upload Popover Menu */}
-                  <AnimatePresence>
-                    {isUploadPopoverOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                        transition={{ duration: 0.15, ease: "easeOut" }}
-                        className="absolute left-0 bottom-12 z-50 w-64 bg-[#121215] border border-white/[0.08] rounded-[22px] p-2 shadow-[0_16px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl space-y-1"
-                      >
-                        <button
-                          onClick={() => photoLibraryInputRef.current?.click()}
-                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                        >
-                          <span className="font-medium">Photo Library</span>
-                          <ImageIcon className="w-4 h-4 text-[#8F939A]" />
-                        </button>
-                        <button
-                          onClick={() => cameraInputRef.current?.click()}
-                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                        >
-                          <span className="font-medium">Take Photo or Video</span>
-                          <Camera className="w-4 h-4 text-[#8F939A]" />
-                        </button>
-                        <button
-                          onClick={() => chooseFilesInputRef.current?.click()}
-                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                        >
-                          <span className="font-medium">Choose Files</span>
-                          <FolderOpen className="w-4 h-4 text-[#8F939A]" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            alert("Google Drive integration triggered");
-                            setIsUploadPopoverOpen(false);
-                          }}
-                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-white/90 hover:bg-white/[0.06] transition-colors text-left"
-                        >
-                          <span className="font-medium">Google Drive</span>
-                          <Triangle className="w-4 h-4 text-[#8F939A]" />
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
 
                   {/* Attachment Clip Button */}
                   <button
@@ -494,7 +516,7 @@ export default function DashboardPage() {
         )}
       </AnimatePresence>
 
-      {/* Keyframe animation for continuous 360-degree border orbiting highlight */}
+      {/* Keyframe animations for continuous 360-degree border orbiting highlight */}
       <style jsx>{`
         @keyframes borderOrbit {
           0% {
