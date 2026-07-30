@@ -12,13 +12,13 @@ const features = [
 
 export default function FeatureList() {
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-3">
       {features.map((feature) => (
-        <li key={feature} className="flex items-center gap-3">
-          <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-            <Check className="w-3.5 h-3.5 text-white" />
+        <li key={feature} className="flex items-center gap-2.5">
+          <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+            <Check className="w-3 h-3 text-white" />
           </span>
-          <span className="text-white text-[22px] font-medium">{feature}</span>
+          <span className="text-white text-sm font-medium">{feature}</span>
         </li>
       ))}
     </ul>
