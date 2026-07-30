@@ -82,7 +82,7 @@ export default function DashboardPage() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 relative z-10">
         <h1 className="text-[44px] md:text-[52px] font-semibold text-white text-center leading-tight max-w-2xl">
-          Where ideas become reality
+          What will you build today?
         </h1>
 
         <div className="flex items-center gap-3 mt-8 overflow-x-auto max-w-full px-2 pb-1">
@@ -93,13 +93,13 @@ export default function DashboardPage() {
               <button
                 key={type.id}
                 onClick={() => setActiveType(type.id)}
-                className={`flex items-center gap-2 h-[42px] px-5 rounded-full text-sm font-medium whitespace-nowrap transition-all active:scale-[0.98] ${
+                className={`flex items-center gap-2 h-[42px] px-5 rounded-full text-sm font-medium whitespace-nowrap transition-all active:scale-[0.98] border ${
                   active
-                    ? "bg-white/[0.12] text-white"
-                    : "bg-white/[0.04] text-[#8F939A] hover:bg-white/[0.07]"
+                    ? "bg-white/[0.08] text-white border-white/[0.15]"
+                    : "bg-white/[0.03] text-[#8F939A] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1]"
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4 text-[#8F939A]" />
                 {type.label}
               </button>
             );
@@ -107,16 +107,16 @@ export default function DashboardPage() {
         </div>
 
         <div
-          className={`w-full md:w-[760px] mt-10 rounded-[28px] bg-[rgba(22,22,26,0.72)] backdrop-blur-2xl border border-white/[0.08] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-shadow duration-300 ${
+          className={`w-full md:w-[760px] mt-10 rounded-[28px] bg-[rgba(22,22,26,0.72)] backdrop-blur-2xl border p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-all duration-300 ${
             composerFocused
-              ? "shadow-[0_0_0_1px_rgba(52,245,160,0.3),0_20px_60px_rgba(0,0,0,0.35)]"
-              : ""
+              ? "border-white/[0.2] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_20px_60px_rgba(0,0,0,0.35)]"
+              : "border-white/[0.08] hover:border-white/[0.14]"
           }`}
         >
           <textarea
             onFocus={() => setComposerFocused(true)}
             onBlur={() => setComposerFocused(false)}
-            placeholder="Build me a CRM system with…"
+            placeholder="Build me a SaaS app for..."
             rows={3}
             className="w-full bg-transparent text-white text-base placeholder:text-[#8F939A] resize-none outline-none"
           />
@@ -204,42 +204,44 @@ export default function DashboardPage() {
               {/* Attachment Clip Button */}
               <button
                 onClick={() => setIsUploadPopoverOpen(!isUploadPopoverOpen)}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors active:scale-[0.98] ${
-                  isUploadPopoverOpen ? "bg-white/[0.12] text-white" : "bg-white/[0.05] hover:bg-white/[0.1] text-white/70"
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all active:scale-[0.98] ${
+                  isUploadPopoverOpen
+                    ? "bg-white/[0.08] border-white/[0.2] text-white"
+                    : "bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] text-[#8F939A] hover:text-white"
                 }`}
               >
                 <Paperclip className="w-4 h-4" />
               </button>
 
-              {/* Interactive E-1 Agent Selector Button */}
+              {/* Interactive E-1 Agent Selector Button (Green Accent Maintained) */}
               <button
                 onClick={() => setIsAgentModalOpen(true)}
-                className="h-10 px-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center gap-1.5 text-sm text-white/90 transition-colors active:scale-[0.98] border border-white/[0.06]"
+                className="h-10 px-3.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] flex items-center gap-2 text-sm text-white/90 transition-all active:scale-[0.98] border border-white/[0.06] hover:border-white/[0.12]"
               >
-                <Bot className="w-4 h-4 text-[#67E8F9]" />
-                <span className="font-medium">{selectedAgent}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-white/50" />
+                <Bot className="w-4 h-4 text-[#34F5A0]" />
+                <span className="font-medium">E-1</span>
+                <ChevronDown className="w-3.5 h-3.5 text-[#8F939A]" />
               </button>
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsPrivacyModalOpen(true)}
-                className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]"
+                className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
               >
-                <Globe className="w-4 h-4 text-white/70" />
+                <Globe className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsAdvancedModalOpen(true)}
-                className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]"
+                className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white"
               >
-                <Settings className="w-4 h-4 text-white/70" />
+                <Settings className="w-4 h-4" />
               </button>
-              <button className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors active:scale-[0.98]">
-                <Mic className="w-4 h-4 text-white/70" />
+              <button className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center transition-all active:scale-[0.98] text-[#8F939A] hover:text-white">
+                <Mic className="w-4 h-4" />
               </button>
-              <button className="w-10 h-10 rounded-full bg-[#34F5A0] flex items-center justify-center hover:brightness-110 transition-all active:scale-[0.98]">
-                <ArrowUp className="w-4 h-4 text-black" />
+              <button className="w-10 h-10 rounded-full bg-white/[0.08] border border-white/[0.15] flex items-center justify-center hover:bg-white/[0.15] hover:border-white/[0.25] transition-all active:scale-[0.98] text-white">
+                <ArrowUp className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -279,7 +281,7 @@ export default function DashboardPage() {
                       }}
                       className={`p-4 rounded-[18px] cursor-pointer transition-all duration-200 flex items-center justify-between border ${
                         isSelected
-                          ? "bg-[rgba(26,26,32,0.9)] border-[#67E8F9]/50 shadow-[0_0_15px_rgba(103,232,249,0.08)]"
+                          ? "bg-[rgba(26,26,32,0.9)] border-[#34F5A0]/50 shadow-[0_0_15px_rgba(52,245,160,0.08)]"
                           : "bg-[rgba(18,18,22,0.6)] border-white/[0.05] hover:bg-[rgba(24,24,28,0.8)] hover:border-white/[0.1]"
                       }`}
                     >
@@ -288,7 +290,7 @@ export default function DashboardPage() {
                         <p className="text-xs text-[#8F939A] font-normal">{agent.subtitle}</p>
                       </div>
                       {isSelected && (
-                        <div className="w-5 h-5 rounded-full bg-[#67E8F9]/15 flex items-center justify-center text-[#67E8F9]">
+                        <div className="w-5 h-5 rounded-full bg-[#34F5A0]/15 flex items-center justify-center text-[#34F5A0]">
                           <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                         </div>
                       )}
@@ -411,7 +413,7 @@ export default function DashboardPage() {
                 <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 rounded-full bg-white/[0.05] flex items-center justify-center text-white">
-                      <Bot className="w-4 h-4" />
+                      <Bot className="w-4 h-4 text-[#34F5A0]" />
                     </div>
                     <span className="text-sm font-semibold text-white flex items-center gap-1">
                       Maxx <Sparkles className="w-3.5 h-3.5 text-[#34F5A0]" />
@@ -431,7 +433,7 @@ export default function DashboardPage() {
                   </span>
                   <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] hover:border-white/[0.1] cursor-pointer flex items-center justify-between transition-all">
                     <div className="flex items-center gap-3">
-                      <Cpu className="w-4 h-4 text-white/70" />
+                      <Cpu className="w-4 h-4 text-[#8F939A]" />
                       <span className="text-sm font-semibold text-white">{selectedModel}</span>
                     </div>
                     <ChevronRight className="w-4 h-4 text-[#8F939A]" />
@@ -449,7 +451,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] hover:border-white/[0.1] cursor-pointer flex items-center justify-between transition-all">
                     <div className="flex items-center gap-3">
-                      <Paperclip className="w-4 h-4 text-white/70" />
+                      <Paperclip className="w-4 h-4 text-[#8F939A]" />
                       <span className="text-sm font-semibold text-white">Select MCP Tools</span>
                     </div>
                     <ChevronRight className="w-4 h-4 text-[#8F939A]" />
@@ -462,7 +464,7 @@ export default function DashboardPage() {
                   </span>
                   <div className="p-4 rounded-[18px] bg-[rgba(18,18,22,0.6)] border border-white/[0.05] hover:border-white/[0.1] cursor-pointer flex items-center justify-between transition-all">
                     <div className="flex items-center gap-3">
-                      <Github className="w-4 h-4 text-white/70" />
+                      <Github className="w-4 h-4 text-[#8F939A]" />
                       <span className="text-sm font-semibold text-white">Connect to GitHub</span>
                     </div>
                     <ChevronRight className="w-4 h-4 text-[#8F939A]" />
